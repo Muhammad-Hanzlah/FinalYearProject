@@ -21,7 +21,7 @@
 
 //     useEffect(() => {
 //     if(localStorage.getItem('auth-token')){
-//         fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/getcart', {
+//         fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/getcart', {
 //             method: 'POST',
 //             headers: {
 //                 Accept: 'application/form-data',
@@ -38,7 +38,7 @@
 
 
 //     useEffect(()=>{
-//         fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/allproducts')
+//         fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/allproducts')
 //         .then((response)=>response.json())
 //         .then((data)=>setAll_Product(data))
 //     },[])
@@ -46,7 +46,7 @@
 //     // const addToCart = (itemId) => {
 //     //     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
 //     //     if(localStorage.getItem('auth-token')){
-//     //         fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addtocart',{
+//     //         fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addtocart',{
 //     //             method:'POST',
 //     //             headers:{
 //     //                 Accept:'application/form-data',
@@ -65,7 +65,7 @@
 //     const addToCart = (itemId) => {
 //     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 })); // Local update
 //     if(localStorage.getItem('auth-token')){ // Logic Injection: Only sync if logged in
-//         fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addtocart', {
+//         fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addtocart', {
 //             method: 'POST',
 //             headers: {
 //                 Accept: 'application/form-data',
@@ -83,7 +83,7 @@
 // const removeFromCart = (itemId) => {
 //     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
 //     if(localStorage.getItem('auth-token')){
-//         fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/removefromcart', {
+//         fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/removefromcart', {
 //             method: 'POST',
 //             headers: {
 //                 Accept: 'application/form-data',
@@ -157,10 +157,10 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
     useEffect(() => {
-        fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/allproducts').then((res) => res.json()).then((data) => setAll_Product(data));
+        fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/allproducts').then((res) => res.json()).then((data) => setAll_Product(data));
         const token = localStorage.getItem('auth-token');
         if (token) {
-            fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/getcart', {
+            fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/getcart', {
                 method: 'POST',
                 headers: { 'auth-token': token, 'Content-Type': 'application/json' },
                 body: "",
@@ -171,7 +171,7 @@ const ShopContextProvider = (props) => {
     const addToCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
         if (localStorage.getItem('auth-token')) {
-            fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addtocart', {
+            fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addtocart', {
                 method: 'POST',
                 headers: { 'auth-token': localStorage.getItem('auth-token'), 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "itemId": itemId }),

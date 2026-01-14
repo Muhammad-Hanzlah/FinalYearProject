@@ -55,7 +55,7 @@ const Items = (props) => {
             alt={props.name}
             onError={(e) => {
                 e.target.onerror = null; 
-                e.target.src = "httpss://placehold.co/350x450?text=No+Image";
+                e.target.src = "https://placehold.co/350x450?text=No+Image";
             }}
           />
        </Link>

@@ -7,7 +7,7 @@
 // const path = require("path")
 // const cors = require("cors");
 // const { error } = require("console");
-// const { request } = require("https");
+// const { request } = require("http");
 // const { type } = require("os");
 
 // app.use(express.json());
@@ -40,7 +40,7 @@
 // app.post("/upload",upload.single('product'),(req,res) =>{
 //     res.json({
 //         succes:1,
-//         image_url:`https://localhost:${port}/images/${req.file.filename}`
+//         image_url:`http://localhost:${port}/images/${req.file.filename}`
 //     })
 // })
 
@@ -218,7 +218,7 @@
 //         }
 //         res.json({
 //             success: 1,
-//             image_url: `https://localhost:${port}/images/${req.file.filename}`
+//             image_url: `http://localhost:${port}/images/${req.file.filename}`
 //         });
 //     });
 // });
@@ -513,7 +513,7 @@
 //         if (err) return res.status(500).json({ success: 0, message: err.message });
 //         res.json({
 //             success: 1,
-//             image_url: `https://localhost:${port}/images/${req.file.filename}`
+//             image_url: `http://localhost:${port}/images/${req.file.filename}`
 //         });
 //     });
 // });
@@ -720,7 +720,7 @@ const upload = multer({ storage: storage });
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `https://localhost:${port}/images/${req.file.filename}`
+        image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
 });
 

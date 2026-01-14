@@ -46,7 +46,7 @@
 
 //   useEffect(() => {
 //     // 2. Logic Injection: Fetching from the specific women's category endpoint
-//     fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/popularinwomen')
+//     fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/popularinwomen')
 //       .then((response) => response.json())
 //       .then((data) => setPopularProducts(data)) // Re-wiring the brain with data
 //       .catch((err) => console.log("Fetch Error: ", err));
@@ -99,7 +99,7 @@ const Popular = () => {
   const [popularProducts, setPopularProducts] = useState([]);
 
  useEffect(() => {
-  fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/popularinwomen')
+  fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/popularinwomen')
     .then((res) => {
       if(!res.ok) throw new Error("Network response was not ok");
       return res.json();

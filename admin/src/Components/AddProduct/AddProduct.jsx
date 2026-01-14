@@ -38,7 +38,7 @@ const AddProduct = () => {
         try {
             // STEP 1: Upload Image to Server
             // Fixed the URL (added colon) and changed method to uppercase POST
-            const uploadResponse = await fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/upload', {
+            const uploadResponse = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/upload', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -55,7 +55,7 @@ const AddProduct = () => {
                 console.log("Image Uploaded Successfully. Final Object:", product);
 
                 // STEP 3: Save the complete product to the Database
-                const addResponse = await fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addproduct', {
+                const addResponse = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/addproduct', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
