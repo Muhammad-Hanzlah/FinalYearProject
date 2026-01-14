@@ -1,0 +1,16 @@
+/* This targets the parent container (Admin div) */
+.admin {
+  display: flex;
+  align-items: flex-start;
+  background-color: #fbfbfb;
+  min-height: 100vh;
+}
+
+/* This targets the container holding your AddProduct/ListProduct */
+/* It pushes the form to the center of the remaining space */
+.admin > *:last-child {
+  flex: 1; 
+  display: flex;
+  justify-content: center; 
+  align-items: flex-start;
+}

@@ -1,0 +1,223 @@
+/* .footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.footer-logo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.footer-logo p{
+    color: #383838;
+    font-size: 46px;
+    font-weight: 700;
+}
+.footer-links{
+    display: flex;
+    list-style: none;
+    gap: 50px;
+    color: #252525;
+    font-size: 20px;
+}
+.footer-links li{
+    cursor: pointer;
+}
+.footer-social-icon{
+    display: flex;
+    gap: 20px;
+}
+.footer-icon-container{
+    padding: 10px;
+    padding-bottom: 6px;
+    background: #fbfbfb;
+    border: 1px solid #ebebeb;
+}
+.footer-copyright{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    color: #1a1a1a;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+.footer-copyright hr{
+    width: 80%;
+    border: none;
+    border-radius: 10px;
+    height: 3px;
+    background: #c7c7c7;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-top: 100px; /* Separates footer from content above */
+    padding: 40px 0px;
+    font-family: 'Poppins', sans-serif;
+    /* Background color (Optional: Light grey to separate from body) */
+    width: 100%;
+    box-sizing: border-box; /* Prevents padding from adding width */
+}
+
+/* --- LOGO SECTION --- */
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-logo p {
+    color: #383838;
+    font-size: 46px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.footer-logo img {
+    width: 70px; /* Adjust based on your actual logo file size */
+}
+
+/* --- NAVIGATION LINKS --- */
+.footer-links {
+    display: flex;
+    list-style: none; /* Removes bullet points */
+    gap: 50px;
+    color: #252525;
+    font-size: 20px;
+}
+
+.footer-links li {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer-links li:hover {
+    color: #ff4141; /* Brand Red hover */
+    transform: translateY(-2px); /* Subtle lift */
+}
+
+/* --- SOCIAL ICONS --- */
+.footer-social-icon {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-icon-container {
+    padding: 10px;
+    padding-bottom: 6px; /* Visual balance */
+    background: #fbfbfb;
+    border: 1px solid #ebebeb;
+    border-radius: 10px; /* Soft corners */
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer-icon-container:hover {
+    background: white;
+    border-color: #ff4141; /* Glows red on hover */
+    transform: translateY(-5px); /* Jumps up */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* --- COPYRIGHT SECTION --- */
+.footer-copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    margin-bottom: 30px;
+    color: #1a1a1a;
+    font-size: 20px;
+}
+
+.footer-copyright hr {
+    width: 80%; /* Line is 80% of screen width */
+    border: none;
+    border-radius: 10px;
+    height: 3px;
+    background: #c7c7c7;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (Safe & Secure)
+   ========================================= */
+
+/* 1. TABLET (1280px) */
+@media(max-width: 1280px) {
+    .footer-logo p { font-size: 38px; }
+    .footer-links { font-size: 18px; gap: 30px; }
+    .footer-copyright { font-size: 16px; }
+}
+
+/* 2. MOBILE (800px) */
+@media(max-width: 800px) {
+    .footer { gap: 30px; margin-top: 50px; }
+
+    .footer-logo img { width: 50px; }
+    .footer-logo p { font-size: 32px; }
+
+    /* Links might wrap on smaller tablets/phones */
+    .footer-links { 
+        font-size: 16px; 
+        gap: 20px; 
+        flex-wrap: wrap; 
+        justify-content: center; 
+    }
+
+    .footer-copyright { gap: 20px; font-size: 14px; }
+    .footer-copyright hr { width: 90%; }
+}
+
+/* 3. TINY SCREEN (Under 400px) */
+@media(max-width: 400px) {
+    .footer-logo p { font-size: 26px; }
+    
+    .footer-links {
+        flex-direction: column; /* Stack vertically for easy tapping */
+        align-items: center;
+        gap: 15px;
+        font-size: 14px;
+    }
+
+    .footer-social-icon {
+        gap: 10px;
+    }
+    
+    .footer-icon-container {
+        padding: 8px;
+    }
+    
+    .footer-icon-container img {
+        width: 24px; /* Smaller icons */
+    }
+
+    .footer-copyright {
+        font-size: 12px;
+        text-align: center;
+        padding: 0 10px; /* Prevent text touching edges */
+    }
+}

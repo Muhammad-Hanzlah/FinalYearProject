@@ -1,0 +1,293 @@
+/* .hero{
+    height: 100vh;
+    background: linear-gradient(100deg, #fde1ff, #e1ffea22 60%);
+    display: flex;
+}
+.hero-left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding-left: 180px;
+    line-height: 1.1;
+}
+.hero-left h2{
+    font-size: 26px;
+    color: #090909;
+    font-weight: 600;
+}
+.hero-left p{
+    font-size: 100px;
+    font-weight: 700;
+    color: #171717;
+} 
+.hero-hand-icon{
+   display: flex;
+   align-items: center;
+   gap: 20px;
+}
+.hero-hand-icon img{
+    width: 105px;
+}
+.hero-latest-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 310px;
+    height: 70px;
+    border-radius: 75px;
+    margin-top: 30px;
+    background: #ff4141;
+    color: white;
+    font-size: 22px;
+    font-weight: 500px;
+}
+
+.hero-right{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- 1. Fonts & Global Setup --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* --- 2. Main Container (The Elegant Gradient) --- */
+.hero {
+  /* Desktop: Fixed height looks good */
+  height: 100vh; 
+  background: linear-gradient(180deg, #fde1ff, #e1ffea22 60%); /* Soft Pink to White Fade */
+  display: flex;
+  justify-content: space-between; /* Pushes text left, image right */
+  align-items: center;
+  padding: 0 100px; /* Breathing room */
+  font-family: 'Poppins', sans-serif;
+  
+  /* IMPORTANT: prevents scrollbars on desktop, but we reset this for mobile later */
+  overflow: hidden; 
+}
+
+/* --- 3. Left Side (Text Area) --- */
+.hero-left {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  line-height: 1.1;
+  z-index: 2; 
+}
+
+/* Subheading "NEW ARRIVALS ONLY" */
+.hero-left h2 {
+  color: #090909;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Wrapper for the Giant Text */
+.hero-left div p {
+  color: #171717;
+  /* FLUID TYPOGRAPHY: 80px on desktop */
+  font-size: clamp(30px, 6vw, 80px); 
+  font-weight: 700;
+  font-family: 'Playfair Display', serif; 
+  margin: 0;
+}
+
+/* The "NEW" + Hand Icon Line */
+.hand-hand-icon {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Waving Hand Icon */
+.hand-hand-icon img {
+  width: clamp(40px, 8vw, 105px); 
+  height: auto;
+}
+
+/* --- 4. The "Latest Collection" Button --- */
+.hero-latest-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 310px;
+  height: 70px;
+  border-radius: 75px; 
+  margin-top: 30px;
+  background: #ff4141; 
+  color: white;
+  font-size: 22px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(255, 65, 65, 0.2);
+}
+
+.hero-latest-button:hover {
+  transform: scale(1.05); 
+  background: #e63b3b;
+}
+
+.hero-latest-button img {
+  width: 20px; 
+  transition: transform 0.3s ease;
+}
+
+.hero-latest-button:hover img {
+  transform: translateX(5px);
+}
+
+/* --- 5. Right Side (Hero Image) --- */
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.hero-right img {
+  max-width: 90%; 
+  height: auto;
+  max-height: 85vh; 
+  filter: drop-shadow(0px 20px 30px rgba(0,0,0,0.1)); 
+}
+
+/* =========================================================
+   RESPONSIVENESS FIX (1024px to 401px)
+   ========================================================= */
+@media (max-width: 1024px) {
+  
+  .hero {
+    /* FIX: Remove fixed height so text doesn't get hidden */
+    height: auto; 
+    min-height: 100vh; /* Ensures it covers screen but can grow */
+    overflow: visible; /* Allows scrolling if content is tall */
+    
+    /* Layout: Vertical Stack */
+    flex-direction: column; 
+    padding: 80px 30px; /* Add top padding so nav doesn't hide text */
+    gap: 40px;
+    text-align: center;
+  }
+
+  .hero-left {
+    align-items: center; /* Centers the text stack */
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  /* Adjust font sizes for tablet so they are visible */
+  .hero-left h2 {
+    font-size: 22px;
+  }
+
+  .hero-left div p {
+    font-size: 50px; /* Readable size for tablet */
+  }
+
+  /* Center the hand icon */
+  .hand-hand-icon {
+    justify-content: center;
+  }
+  
+  .hand-hand-icon img {
+    width: 60px;
+  }
+
+  .hero-latest-button {
+    width: 260px;
+    height: 60px;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  /* Fix Image Sizing for Tablet */
+  .hero-right {
+    width: 100%;
+  }
+
+  .hero-right img {
+    width: 60%; /* Don't let it take full width or it pushes text out */
+    max-width: 450px;
+  }
+}
+
+/* =========================================================
+   MOBILE & TINY SCREENS (< 480px)
+   ========================================================= */
+@media (max-width: 480px) {
+  .hero {
+    padding: 60px 20px;
+    gap: 30px;
+  }
+
+  .hero-left div p {
+    font-size: 32px; /* Fit on mobile screen */
+  }
+
+  .hero-left h2 {
+    font-size: 16px;
+  }
+
+  .hero-latest-button {
+    width: 100%; /* Full width for easy tapping */
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .hero-right img {
+    width: 80%; /* Wider image on phone looks better */
+  }
+}
+
+/* Watch size support (150px) */
+@media (max-width: 300px) {
+    .hero-left div p { font-size: 24px; }
+    .hero-latest-button { font-size: 14px; }
+}

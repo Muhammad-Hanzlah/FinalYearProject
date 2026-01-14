@@ -1,0 +1,52 @@
+.admin {
+  display: flex;
+  background-color: #f6f6f6;
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+.admin > :last-child {
+  flex: 1;
+  padding: 30px;
+  margin: 20px;
+  margin-left: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  min-height: calc(100vh - 40px);
+}
+
+@media (max-width: 800px) {
+  .admin {
+    flex-direction: column; 
+  }
+
+  .admin > :last-child {
+    margin: 0 auto;
+    padding: 20px;
+    min-height: auto;
+    margin-top:15px ;
+  }
+} 
+
+ @media (max-width: 500px) {
+  .admin > :last-child {
+    margin-top:10px;
+    padding: 10px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

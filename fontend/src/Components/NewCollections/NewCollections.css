@@ -1,0 +1,147 @@
+/* .new-collections{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 100px;
+}
+.new-collections h1{
+    color: #171717;
+    font-size: 50px;
+    font-weight: 600;
+}
+.new-collections hr{
+    width: 200px;
+    height: 6px;
+    border-radius: 10px;
+    background: #252525;
+}
+.collections{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 50px;
+    gap: 30px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- 1. Fonts (Ensure these match your global import) --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap');
+
+/* --- 2. Main Section Layout --- */
+.new-collections {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 90vh; /* Use min-height to avoid cutting content */
+  padding: 50px 20px;
+  background: #fdfbf7; /* Consistent elegant background */
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 50px;
+}
+
+/* --- 3. Heading --- */
+.new-collections h1 {
+  color: #171717;
+  /* Fluid sizing: 24px on watch -> 50px on desktop */
+  font-size: clamp(24px, 5vw, 50px);
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* --- 4. Divider --- */
+.new-collections hr {
+  width: 200px;
+  max-width: 60%; /* Prevents scrolling on 150px screens */
+  height: 4px;
+  border-radius: 10px;
+  background: #252525;
+  border: none;
+  margin-bottom: 40px;
+}
+
+/* --- 5. The Container (Desktop: Flexbox) --- */
+.collections {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to drop to next line */
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* --- 6. The Item Cards (Desktop Styling) --- */
+/* Targeting the Item component divs inside .collections */
+.collections > div {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+  
+  /* Desktop Size Logic */
+  flex: 1 1 250px; 
+  max-width: 300px; /* Keeps them looking elegant on big screens */
+  
+  /* Internal spacing (if Item component doesn't have it) */
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.collections > div:hover {
+  transform: translateY(-5px);
+}
+
+/* Note: Ensure images inside Item component are responsive */
+.collections img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+/* =========================================================
+   MOBILE MAGIC (< 585px)
+   ========================================================= */
+@media (max-width: 585px) {
+  
+  .new-collections {
+    padding: 30px 10px; /* Tighter padding */
+  }
+
+  /* Switch to Grid for the "App-like" feel */
+  .collections {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 perfect columns */
+    gap: 15px;
+  }
+
+  /* Override the max-width so they fill the grid cells */
+  .collections > div {
+    max-width: 100%; 
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* =========================================================
+   TINY SCREEN / WATCH (< 320px)
+   ========================================================= */
+@media (max-width: 320px) {
+  .collections {
+    grid-template-columns: 1fr; /* Back to 1 column for 150px screens */
+  }
+}

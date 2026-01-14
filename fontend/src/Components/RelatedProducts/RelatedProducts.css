@@ -1,0 +1,129 @@
+/* .relatedproducts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 90vh;
+}
+.relatedproducts h1{
+    color: #171717;
+    font-size: 50px;
+    font-weight: 600;
+}
+.relatedproducts hr{
+    width: 200px;
+    height: 6px;
+    border-radius: 10px;
+    background: #252525;
+}
+.relatedproducts-item{
+    margin-top: 50px;
+    display: flex;
+    gap: 30px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- 1. Fonts & Global Layout --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+.relatedproducts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 70px 20px; 
+    background: #fdfbf7;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 40px;
+}
+
+/* --- 2. Heading --- */
+.relatedproducts h1 {
+    color: #171717;
+    font-size: clamp(26px, 5vw, 50px);
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.relatedproducts hr {
+    width: 200px;
+    max-width: 60%; 
+    height: 4px;
+    border-radius: 10px;
+    background: #252525;
+    border: none;
+    margin-bottom: 50px; 
+}
+
+/* --- 3. The Responsive Grid (The Logic You Wanted) --- */
+.relatedproducts-item {
+    display: grid;
+    /* MAGIC LINE: 
+       - auto-fit: Fits as many columns as possible.
+       - minmax(240px, 1fr): Each item tries to be at least 240px.
+       
+       Result:
+       - 1200px screen -> Fits 4 items
+       - 900px screen  -> Fits 3 items (4th drops down)
+       - 600px screen  -> Fits 2 items
+       - < 500px screen -> Fits 1 item
+    */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* --- 4. Item Card Styling --- */
+.relatedproducts-item > div {
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Adds a nice luxury feel */
+    
+    /* Ensure the card fills the grid cell */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.relatedproducts-item > div:hover {
+    transform: translateY(-5px); 
+}
+
+.relatedproducts-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
+    aspect-ratio: 1 / 1.1; /* Keeps images uniform height */
+    object-fit: cover;
+}
+
+/* =========================================================
+   MOBILE TWEAKS
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .relatedproducts {
+        padding: 40px 10px; /* Less padding on small screens */
+    }
+
+    .relatedproducts-item {
+        gap: 20px; /* Smaller gaps between products */
+    }
+}
