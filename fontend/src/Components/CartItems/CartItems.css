@@ -342,55 +342,8 @@
     }
 }
 
-/* Optimized for all mobile phones down to 300px */
 @media (max-width: 500px) {
-    .cartitems {
-        margin: 40px auto;
-        width: 92%; /* Gives a small gutter so content doesn't touch screen edges */
-    }
-
-    /* 1. PRODUCT LIST FIX: Single column is "Best" for 300px */
     .cartitems > div:not(.cartitems-down) {
-        flex: 1 1 100%; /* Switch to 1 item per row */
-        max-width: 100%;
-        margin-bottom: 10px;
-    }
-
-    /* 2. PROMO SECTION FIX: Stack vertically */
-    .cartitems-promobox {
-        flex-direction: column; /* Input on top, button on bottom */
-        height: auto;
-        background: transparent;
-        gap: 10px;
-    }
-
-    .cartitems-promobox input {
-        width: 100%;
-        height: 50px;
-        background: #f3f3f3;
-        border-radius: 4px;
-        padding-left: 15px;
-    }
-
-    .cartitems-promobox button {
-        width: 100%; /* Full width button is easier to press on small screens */
-        height: 50px;
-        border-radius: 4px;
-    }
-
-    /* 3. TOTALS SECTION FIX: Ensure nothing overflows */
-    .cartitems-total {
-        min-width: unset; /* Critical: removes the 320px restriction */
-        width: 100%;
-    }
-
-    .cartitems-total h1 {
-        font-size: 20px; /* Smaller text for 300px screens */
-    }
-
-    .cartitems-total button {
-        max-width: 100%;
-        height: 50px;
-        font-size: 15px;
+        flex: 1 1 140px; /* 2 items per row on mobile */
     }
 }
