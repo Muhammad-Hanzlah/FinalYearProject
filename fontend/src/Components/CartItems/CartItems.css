@@ -387,12 +387,27 @@
         width: 100%;
     }
     .cartitems-promobox button {
-    width: 50%;
-    height: 100%;
+    width: 170px; /* Changed from 50% to a fixed width for a solid look */
+    height: 58px; /* Standard button height */
     background: black;
     color: white;
     border: none;
     font-weight: 600;
     cursor: pointer;
+    font-size: 16px; /* Slightly larger text */
+    transition: 0.3s; /* Smooth hover effect */
+}
+
+.cartitems-promobox button:hover {
+    background: #333; /* Dark grey on hover */
+}
+
+/* Mobile Fix (300px - 500px) */
+@media (max-width: 500px) {
+    .cartitems-promobox button {
+        width: 100%; /* Full width on phone so it's easy to tap */
+        height: 50px;
+        margin-top: 10px; /* Adds space between input and button */
+    }
 }
 }
