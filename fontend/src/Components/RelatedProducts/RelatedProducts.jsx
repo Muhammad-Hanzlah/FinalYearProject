@@ -44,7 +44,7 @@ const RelatedProducts = (props) => {
 
   useEffect(() => {
     if(props.id && props.category) {
-        fetch(`https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/relatedproducts/${props.id}/${props.category}`)
+        fetch(`httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/relatedproducts/${props.id}/${props.category}`)
         .then((res) => res.json())
         .then((data) => setRelated(data))
         .catch((err) => console.log("AI Error:", err));

@@ -27,7 +27,7 @@
 
 //         // 2. Send token and amount to your Backend (Port 4000)
 //         try {
-//             const response = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
+//             const response = await fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
 //                 method: 'POST',
 //                 headers: { 'Content-Type': 'application/json' },
 //                 body: JSON.stringify({
@@ -120,7 +120,7 @@
 //         } else {
 //             // 2. Send the Token ID and Amount to your Backend
 //             try {
-//                 const response = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
+//                 const response = await fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
 //                     method: 'POST',
 //                     headers: {
 //                         'Content-Type': 'application/json',
@@ -235,7 +235,7 @@
 //             setLoading(false);
 //         } else {
 //             try {
-//                 const response = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
+//                 const response = await fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
 //                     method: 'POST',
 //                     headers: { 'Content-Type': 'application/json' },
 //                     body: JSON.stringify({ token: token.id, amount: getTotalCartAmount() }),
@@ -337,7 +337,7 @@ const CheckOut = () => {
         }
 
         try {
-            const response = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
+            const response = await fetch('httpss://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
