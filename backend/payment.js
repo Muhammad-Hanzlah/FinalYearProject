@@ -8,7 +8,7 @@ const payment = async (paymentMethodId, amount) => {
             payment_method: paymentMethodId, 
             confirm: true,
             automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
-            return_url: "http://localhost:4000"
+            return_url: "https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app"
         });
         return paymentIntent;
     } catch (error) { throw error; }

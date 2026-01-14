@@ -6,7 +6,7 @@
 
 //   const[allproducts, setAllProducts] = useState([]);
 //   const fetchInfo = async() =>{
-//     await fetch('http://localhost:4000/allproducts')
+//     await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/allproducts')
 //     .then((res) =>res.json())
 //     .then((data)=>{setAllProducts(data)});
 //   }
@@ -72,7 +72,7 @@ const ListProduct = () => {
   // 2. Optimized Fetch Logic
   const fetchInfo = async () => {
     try {
-      const res = await fetch('http://localhost:4000/allproducts');
+      const res = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/allproducts');
       const data = await res.json();
       setAllProducts(data);
     } catch (error) {
@@ -82,7 +82,7 @@ const ListProduct = () => {
 
   // 3. Logic to Remove Product
   const remove_product = async (id) => {
-    await fetch('http://localhost:4000/removeproduct', {
+    await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/removeproduct', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

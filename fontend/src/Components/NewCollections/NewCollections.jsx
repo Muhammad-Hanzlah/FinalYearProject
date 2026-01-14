@@ -48,7 +48,7 @@
 
 //     // The Logic Injection: Fetching the 8 newest products from your backend
 //     useEffect(() => {
-//         fetch('http://localhost:4000/newcollections')
+//         fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/newcollections')
 //             .then((response) => response.json())
 //             .then((data) => {
 //                 // Logic: "Training" the component state with the actual backend data
@@ -112,7 +112,7 @@ const NewCollections = () => {
     const [new_collection, setNew_collection] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:4000/newcollections')
+        fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/newcollections')
             .then((response) => response.json())
             .then((data) => {
                 setNew_collection(data);
