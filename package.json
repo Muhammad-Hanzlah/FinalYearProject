@@ -1,0 +1,6 @@
+{
+  "name": "ecommerce-glitch-bridge",
+  "scripts": {
+    "start": "cd backend && npm install && node index.js"
+  }
+}
