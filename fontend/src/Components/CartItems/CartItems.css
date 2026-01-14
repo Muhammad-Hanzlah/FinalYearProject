@@ -387,6 +387,6 @@
         width: 100%;
     }
     .cartitems-promobox button {
-        width: 100px; /* Smaller button on tiny screens */
+        width: 1100px; /* Smaller button on tiny screens */
     }
 }
