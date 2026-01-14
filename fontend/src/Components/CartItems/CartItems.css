@@ -341,9 +341,46 @@
         display: none; /* Hide HRs in atom view */
     }
 }
-
+/* 
 @media (max-width: 500px) {
     .cartitems > div:not(.cartitems-down) {
-        flex: 1 1 140px; /* 2 items per row on mobile */
+        flex: 1 1 140px; 
+    }
+} */
+
+
+
+
+@media (max-width: 500px) {
+    /* Allow items to shrink further for very small screens */
+    .cartitems > div:not(.cartitems-down) {
+        flex: 1 1 120px; /* Reduced from 140px to fit 300px width better */
+        min-width: 0;    /* Allows the box to shrink below its content size */
+    }
+
+    /* Target the payment/total section specifically */
+    .cartitems-down {
+        flex-direction: column; /* Stack total and promo code vertically */
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Ensure the total box takes up the full available width */
+    .cartitems-total {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box; /* Includes padding in the width calculation */
+        padding: 15px; 
+    }
+}
+
+/* Extra fix for extremely small screens (300px) */
+@media (max-width: 350px) {
+    .cartitems > div:not(.cartitems-down) {
+        flex: 1 1 100%; /* Switch to 1 item per row for very narrow screens */
+    }
+    
+    .cartitems-total h1 {
+        font-size: 20px; /* Shrink text so it doesn't wrap weirdly */
     }
 }
