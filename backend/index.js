@@ -777,6 +777,33 @@ app.post('/addproduct', async (req, res) => {
     res.json({ success: true, name: req.body.name });
 });
 
+
+
+
+
+
+
+app.post('/removeproduct', async (req, res) => {
+    try {
+        // This finds the product by the 'id' sent from your frontend and deletes it
+        await Product.findOneAndDelete({ id: req.body.id });
+        console.log("Product Removed");
+        res.json({
+            success: true,
+            name: req.body.name
+        });
+    } catch (error) {
+        console.error("Error removing product:", error);
+        res.status(500).json({ success: false, message: "Failed to remove product" });
+    }
+});
+
+
+
+
+
+
+
 app.get('/allproducts', async (req, res) => {
     let products = await Product.find({});
     res.json(products);
