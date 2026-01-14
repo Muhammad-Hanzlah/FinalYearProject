@@ -182,7 +182,7 @@ const ShopContextProvider = (props) => {
     const removeFromCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: Math.max(prev[itemId] - 1, 0) }));
         if (localStorage.getItem('auth-token')) {
-            fetch('fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/removefromcart', {
+            fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/removefromcart', {
                 method: 'POST',
                 headers: { 'auth-token': localStorage.getItem('auth-token'), 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "itemId": itemId }),
