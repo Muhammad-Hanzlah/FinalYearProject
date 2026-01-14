@@ -343,7 +343,44 @@
 }
 
 @media (max-width: 500px) {
+    .cartitems {
+        margin: 40px auto; /* Reduce top margin for mobile */
+    }
+
+    /* Fix the Promo Box and Button */
+    .cartitems-promobox {
+        height: auto; /* Allow height to expand for stacked button */
+        flex-direction: column; /* Stacks input and button vertically */
+        background: transparent;
+    }
+
+    .cartitems-promobox input {
+        width: 100%;
+        height: 50px;
+        background: #f3f3f3;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+
+    .cartitems-promobox button {
+        width: 100%; /* Makes button solid and full-width */
+        height: 50px;
+        border-radius: 4px;
+    }
+
+    /* Fix the Totals Section */
+    .cartitems-total h1 {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .cartitems-total button {
+        max-width: 100%;
+        height: 50px;
+    }
+
+    /* Ensure Atom view works on 300px */
     .cartitems > div:not(.cartitems-down) {
-        flex: 1 1 100; /* 2 items per row on mobile */
+        flex: 1 1 100%; /* Single item per row to fit 300px */
     }
 }
