@@ -344,6 +344,6 @@
 
 @media (max-width: 500px) {
     .cartitems > div:not(.cartitems-down) {
-        flex: 1 1 140px; /* 2 items per row on mobile */
+        flex: 1 1 100; /* 2 items per row on mobile */
     }
 }
