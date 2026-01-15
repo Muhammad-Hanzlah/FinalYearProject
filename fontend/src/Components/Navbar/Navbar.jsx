@@ -39,12 +39,6 @@
 
 
 
-
-
-
-
-
-
 import { memo, useContext, useRef, useState } from 'react';
 import './Navbar.css';
 import logo from '../Assets/logo.png';
@@ -64,7 +58,6 @@ const Navbar = () => {
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(`/search/${searchTerm}`);
-      // Close menu automatically after searching
       menRef.current.classList.remove('nav-manue-visible');
     }
   };
@@ -86,7 +79,6 @@ const Navbar = () => {
       <img className='nav-dropdown-icon' onClick={dropdown_toggle} src={nav_dropdown} alt="menu" />
       
       <ul ref={menRef} className='nav-menu'>
-        {/* ROW 1: Search Bar (Full width in toggle) */}
         <li className="nav-search-wrapper">
           <div className="nav-search-container">
             <input 
@@ -100,7 +92,6 @@ const Navbar = () => {
           </div>
         </li>
 
-        {/* ROW 2: Horizontal Categories */}
         <div className="nav-categories-horizontal">
           <li onClick={() => { setMenu("shop") }}>
             <Link to="/" style={{ textDecoration: 'none' }}>Shop</Link>

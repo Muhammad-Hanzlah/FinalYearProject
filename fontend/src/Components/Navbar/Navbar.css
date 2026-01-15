@@ -83,8 +83,6 @@
 
 
 
-
-
 /* ===== RESET ===== */
 * {
   margin: 0;
@@ -246,7 +244,6 @@
   .Navbar { padding: 12px 20px; }
   .nav-dropdown-icon { display: block; }
 
-  /* TOGGLE MENU */
   .nav-menu {
     position: absolute;
     top: 100%;
@@ -255,12 +252,9 @@
     background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    
-    /* Search on Row 1, Categories on Row 2 */
     flex-direction: column; 
     gap: 20px;
     padding: 20px 0;
-    
     visibility: hidden;
     opacity: 0;
     transform: translateY(-10px);
@@ -273,17 +267,10 @@
     transform: translateY(0);
   }
 
-  /* Search Row */
-  .nav-search-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
+  .nav-search-wrapper { width: 100%; display: flex; justify-content: center; }
   .nav-search-container { width: 80%; }
   .nav-search-container input { width: 100%; }
 
-  /* Categories Row - KEEPS THEM HORIZONTAL */
   .nav-categories-horizontal {
     display: flex;
     flex-direction: row; 
@@ -291,12 +278,19 @@
     gap: 20px;
     width: 100%;
   }
-
-  .nav-menu li a { font-size: 15px; font-weight: 600; }
 }
 
+/* Small Device Polish - TITLE REMAINS VISIBLE */
 @media (max-width: 480px) {
-  .nav-categories-horizontal { gap: 10px; }
-  .nav-menu li a { font-size: 13px; }
-  .nav-logo p { display: none; }
+  .nav-logo p { font-size: 18px; } /* Slightly smaller but visible */
+  .nav-logo img { width: 30px; }
+  .nav-categories-horizontal { gap: 12px; }
+  .nav-menu li a { font-size: 12px; }
+  .nav-login-cart { gap: 15px; }
+  .nav-login-cart button { padding: 5px 12px; font-size: 11px; }
+}
+
+@media (max-width: 360px) {
+  .nav-logo p { font-size: 16px; gap: 5px; }
+  .nav-logo img { width: 25px; }
 }
