@@ -806,40 +806,111 @@ app.get('/relatedproducts/:id/:category', async (req, res) => {
 // --- Auth Routes (Signup with verification check) ---
 app.post('/signup', async (req, res) => {
     try {
-        let check = await Users.findOne({ email: req.body.email });
-        if (check) return res.status(400).json({ success: false, errors: "Existing user found" });
-
+        let user = await Users.findOne({ email: req.body.email });
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // If user exists but is NOT verified, update their OTP and send email
+        if (user) {
+            if (!user.isVerified) {
+                user.otp = otp;
+                await user.save();
+                
+                // Reuse email sending logic
+                const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: user.email,
+                    subject: 'Verify your Account (New Code)',
+                    text: `Your new verification code is: ${otp}`
+                };
+
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+                });
+
+                transporter.sendMail(mailOptions, (error) => {
+                    if (error) return res.json({ success: false, message: "Email failed" });
+                    return res.json({ success: true, message: "New OTP sent to email" });
+                });
+                return; // Stop here for existing unverified user
+            } else {
+                return res.status(400).json({ success: false, errors: "Existing verified user found" });
+            }
+        }
+
+        // Logic for completely NEW user
         let cart = {};
         for (let i = 0; i < 301; i++) { cart[i] = 0; }
 
-        const user = new Users({
+        const newUser = new Users({
             name: req.body.username,
             email: req.body.email,
             password: req.body.password,
             cartData: cart,
             otp: otp
         });
-        await user.save();
+        await newUser.save();
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
         });
 
-        const mailOptions = {
+        transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: user.email,
-            subject: 'Verify your E-commerce Account',
-            text: `Your verification code is: ${otp}`
-        };
-
-        transporter.sendMail(mailOptions, (error) => {
-            if (error) return res.json({ success: false, message: "Email error", error: error.message });
+            to: newUser.email,
+            subject: 'Verify your Account',
+            text: `Your code: ${otp}`
+        }, (error) => {
+            if (error) return res.json({ success: false, message: "Email failed" });
             res.json({ success: true, message: "OTP sent to email" });
         });
-    } catch (error) { res.status(500).json({ success: false }); }
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
 });
+
+
+
+
+
+// app.post('/signup', async (req, res) => {
+//     try {
+//         let check = await Users.findOne({ email: req.body.email });
+//         if (check) return res.status(400).json({ success: false, errors: "Existing user found" });
+
+//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//         let cart = {};
+//         for (let i = 0; i < 301; i++) { cart[i] = 0; }
+
+//         const user = new Users({
+//             name: req.body.username,
+//             email: req.body.email,
+//             password: req.body.password,
+//             cartData: cart,
+//             otp: otp
+//         });
+//         await user.save();
+
+//         const transporter = nodemailer.createTransport({
+//             service: 'gmail',
+//             auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+//         });
+
+//         const mailOptions = {
+//             from: process.env.EMAIL_USER,
+//             to: user.email,
+//             subject: 'Verify your E-commerce Account',
+//             text: `Your verification code is: ${otp}`
+//         };
+
+//         transporter.sendMail(mailOptions, (error) => {
+//             if (error) return res.json({ success: false, message: "Email error", error: error.message });
+//             res.json({ success: true, message: "OTP sent to email" });
+//         });
+//     } catch (error) { res.status(500).json({ success: false }); }
+// });
 
 app.post('/verify-otp', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
