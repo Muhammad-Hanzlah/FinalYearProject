@@ -998,4 +998,11 @@ app.post('/payment', fetchUser, async (req, res) => {
     } catch (err) { res.status(500).json({ success: false, message: err.message }); }
 });
 
-app.listen(port, (error) => { if (!error) console.log("Server Running on Port " + port); });
+// app.listen(port, (error) => { if (!error) console.log("Server Running on Port " + port); });
+app.listen(port, (error) => {
+    if (!error) {
+        console.log("Server Running on Port " + port);
+    } else {
+        console.log("Error: " + error);
+    }
+});
