@@ -229,14 +229,20 @@
 
 
 
-
 .nav-search-container {
     display: flex;
     align-items: center;
-    background: #eaeaea;
-    border-radius: 20px;
-    padding: 5px 15px;
-    margin-left: 20px;
+    background: #f1f1f1;
+    border-radius: 25px; /* Matches your button curves */
+    padding: 2px 5px 2px 15px;
+    margin: 0 15px; /* Balanced spacing */
+    border: 1px solid #e0e0e0;
+    transition: 0.3s;
+}
+
+.nav-search-container:focus-within {
+    border-color: #ff4141;
+    background: #fff;
 }
 
 .nav-search-container input {
@@ -244,18 +250,27 @@
     outline: none;
     background: transparent;
     font-size: 14px;
-    width: 150px;
+    width: 140px; /* Kept small to fit premium desktop spacing */
+    color: #444;
 }
 
 .nav-search-container button {
     border: none;
     background: #ff4141;
     color: white;
-    border-radius: 15px;
-    padding: 5px 12px;
+    border-radius: 20px;
+    padding: 6px 15px;
     cursor: pointer;
     font-size: 12px;
-    margin-left: 5px;
+    font-weight: 600;
+    transition: 0.3s;
+    box-shadow: none; /* Removed shadow to keep it clean */
+    margin-top: 0; /* Reset for your button global style */
+}
+
+.nav-search-container button:hover {
+    background: #e03a3a;
+    transform: none; /* Keeps search bar stable */
 }
 
 /* =========================================================
@@ -268,8 +283,23 @@
         padding: 15px 5%; 
     }
 }
+@media (max-width: 1050px) {
+    .nav-search-container input {
+        width: 100px; /* Shrinks on smaller laptops */
+    }
+}
+
+
 
 @media (max-width: 670px) {
+  .nav-search-container {
+        order: 2; /* Positions it between logo and cart/toggle */
+        margin: 0 10px;
+        flex: 1; /* Allows it to take up available space */
+    }
+    .nav-search-container input {
+        width: 100%; /* Full width on mobile */
+    }
   .Navbar {
     padding: 12px 20px; 
   }
@@ -320,6 +350,13 @@
     padding: 6px 15px;
     font-size: 12px;
   }
+}
+
+@media (max-width: 480px) {
+    .nav-search-container button {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
 }
 
 /* Small Device Polish */
