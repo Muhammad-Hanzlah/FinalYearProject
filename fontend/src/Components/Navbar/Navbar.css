@@ -277,81 +277,94 @@
    RESPONSIVE LOGIC
    ========================================================= */
 
-/* Adjusting the 1.8in margin for medium screens so they don't look cramped */
+/* =========================================================
+   RESPONSIVE LOGIC
+   ========================================================= */
+
+/* 1. Large Screen Adjustment */
 @media (max-width: 1200px) {
     .Navbar {
         padding: 15px 5%; 
     }
 }
-@media (max-width: 1050px) {
+
+/* 2. New 900px Logic: Move Search to Top */
+@media (max-width: 900px) {
+    .Navbar {
+        flex-wrap: wrap; /* Allows search to jump to a new line */
+        padding: 10px 5%;
+        justify-content: space-between;
+    }
+
+    .nav-search-container {
+        order: -1; /* Forces search bar to the top of all other elements */
+        width: 100%; /* Spans the full width */
+        margin: 5px 0 15px 0; /* Spacing below the search bar */
+        display: flex;
+    }
+
     .nav-search-container input {
-        width: 100px; /* Shrinks on smaller laptops */
+        width: 100%; /* Makes search bar longer for better UX */
     }
 }
 
-
-
+/* 3. Your Existing 670px Mobile Logic (Dropdown & Toggle) */
 @media (max-width: 670px) {
-  .nav-search-container {
-        order: 2; /* Positions it between logo and cart/toggle */
-        margin: 0 10px;
-        flex: 1; /* Allows it to take up available space */
+    .Navbar {
+        padding: 12px 20px; 
     }
-    .nav-search-container input {
-        width: 100%; /* Full width on mobile */
+
+    /* Show the Toggle Icon */
+    .Navbar > img:not(.nav-logo img):not(.nav-login-cart img) {
+        display: block;
     }
-  .Navbar {
-    padding: 12px 20px; 
-  }
 
-  /* Show the Toggle Icon */
-  .Navbar > img:not(.nav-logo img):not(.nav-login-cart img) {
-    display: block;
-  }
+    /* HORIZONTAL GLASS DROPDOWN */
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        flex-direction: row; 
+        justify-content: center;
+        gap: 15px;
+        padding: 15px 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        transform: translateY(-10px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 999;
+    }
 
-  /* HORIZONTAL GLASS DROPDOWN */
-  .nav-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    
-    /* Maximum Transparency & Blur for Banners */
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    
-    flex-direction: row; /* Horizontal as requested */
-    justify-content: center;
-    gap: 15px;
-    padding: 15px 0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    .nav-manue-visible {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
 
-    /* Animation */
-    transform: translateY(-10px);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+    .nav-menu li a {
+        font-size: 14px;
+        font-weight: 600;
+    }
 
-  /* OPEN STATE (Targeting your JS class) */
-  .nav-manue-visible {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .nav-menu li a {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .nav-login-cart button {
-    padding: 6px 15px;
-    font-size: 12px;
-  }
+    .nav-login-cart button {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
 }
 
+/* 4. Small Tablet Polish (Replaces your 1050px width fix) */
+@media (max-width: 1050px) and (min-width: 901px) {
+    .nav-search-container input {
+        width: 100px;
+    }
+}
+
+/* 5. Mobile Button Adjustment */
 @media (max-width: 480px) {
     .nav-search-container button {
         padding: 6px 10px;
@@ -359,9 +372,9 @@
     }
 }
 
-/* Small Device Polish */
+/* 6. Small Device Polish */
 @media (max-width: 380px) {
-  .nav-logo p {
-    display: none;
-  }
+    .nav-logo p {
+        display: none;
+    }
 }
