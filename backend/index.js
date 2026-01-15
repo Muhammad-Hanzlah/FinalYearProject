@@ -921,6 +921,30 @@ app.post('/payment', fetchUser, async (req, res) => {
     } catch (err) { res.status(500).json({ success: false, message: err.message }); }
 });
 
+
+
+
+
+
+
+
+
+
+// NEW ROUTE: Search functionality using MongoDB Regex
+app.get("/search/:key", async (req, res) => {
+    try {
+        let result = await Product.find({
+            "$or": [
+                { name: { $regex: req.params.key, $options: 'i' } }, // 'i' makes it case-insensitive
+                { category: { $regex: req.params.key, $options: 'i' } }
+            ]
+        });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Search failed" });
+    }
+});
+
 app.listen(port, "0.0.0.0", (error) => {
     if (!error) console.log("Server Running on Port " + port);
 });

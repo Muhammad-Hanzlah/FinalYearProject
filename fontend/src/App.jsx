@@ -90,6 +90,7 @@ import Footer from './Components/Footer/Footer';
 import men_banner from './Components/Assets/banner_mens.png';
 import women_banner from './Components/Assets/banner_women.png';
 import kid_banner from './Components/Assets/banner_kids.png';
+import SearchResults from './Components/SearchResults/SearchResults';
 
 // Stripe Elements
 import { Elements } from '@stripe/react-stripe-js';
@@ -111,6 +112,7 @@ function App() {
           <Route path="/product/:productId" element={<Product />} /> 
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<LoginSignup />} />
+          <Route path='/search/:key' element={<SearchResults/>}/>
           
           <Route path='/checkout' element={ 
             <Elements stripe={stripePromise}>

@@ -39,15 +39,28 @@ import cart_icon from '../Assets/cart_icon.png';
 import { Link } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 import nav_dropdown from '../Assets/nav_dropdown.png';
-
-
+const [searchTerm, setSearchTerm] = useState("");
+const navigate = useNavigate();
+const searchHandler = () => {
+    if (searchTerm.trim()) {
+        navigate(`/search/${searchTerm}`);
+    }
+};
 
 
 const Navbar = () => {
   const [menu, setMenu] = useState("shop");
   const {getTotalCartItems}= useContext(ShopContext)
   const menRef = useRef();
-
+  
+<div className="nav-search-container">
+    <input 
+        type="text" 
+        placeholder="Search..." 
+        onChange={(e) => setSearchTerm(e.target.value)} 
+    />
+    <button onClick={handleSearch}>Search</button>
+</div>
 
   const dropdown_toggle = (e) =>{
     menRef.current.classList.toggle('nav-manue-visible');
