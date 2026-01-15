@@ -971,8 +971,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 app.post("/chatbot", async (req, res) => {
     try {
         const { message } = req.body;
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const prompt = `You are a helpful assistant for "Store". 
         Rules:
         1. Only help with clothing and store policies.
