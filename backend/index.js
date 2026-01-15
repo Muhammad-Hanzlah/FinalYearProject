@@ -678,9 +678,7 @@
 
 
 
-
-
-require('dotenv').config(); // Load environment variables at the very top
+require('dotenv').config(); 
 const port = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
@@ -750,17 +748,27 @@ app.get('/allproducts', async (req, res) => {
     res.json(products);
 });
 
-// Global Transporter Setup
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, 
-    auth: {
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS 
-    },
-    tls: { rejectUnauthorized: false }
+// RE-ADDED: New Collections Logic
+app.get('/newcollections', async (req, res) => {
+    let products = await Product.find({});
+    let newcollection = products.slice(1).slice(-8); // Gets the last 8 added products
+    console.log("New Collections Fetched");
+    res.json(newcollection);
+});
+
+// RE-ADDED: Popular in Women Logic
+app.get('/popularinwomen', async (req, res) => {
+    let products = await Product.find({ category: "women" });
+    let popular_in_women = products.slice(0, 4); // Gets first 4 women's products
+    console.log("Popular in Women Fetched");
+    res.json(popular_in_women);
+});
+
+// RE-ADDED: Related Products Logic
+app.get('/relatedproducts/:id/:category', async (req, res) => {
+    const { id, category } = req.params;
+    let related = await Product.find({ category: category, id: { $ne: id } }).limit(4);
+    res.json(related);
 });
 
 // Signup Route
@@ -783,11 +791,15 @@ app.post('/signup', async (req, res) => {
 
         await user.save();
 
-        // Check if credentials exist before sending to avoid "PLAIN" error
         if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-            console.error("CRITICAL: Email credentials missing in environment variables!");
-            return res.status(500).json({ success: false, message: "Server email configuration error" });
+            console.error("CRITICAL: Email credentials missing!");
+            return res.status(500).json({ success: false, message: "Server configuration error" });
         }
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+        });
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -798,19 +810,16 @@ app.post('/signup', async (req, res) => {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log("Nodemailer Error:", error);
-                return res.json({ success: false, message: "User saved but email failed", error: error.message });
+                return res.json({ success: false, message: "Email failed", error: error.message });
             }
             res.json({ success: true, message: "OTP sent to email" });
         });
 
     } catch (error) {
-        console.error("Signup Catch Error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
 
-// Verify OTP
 app.post('/verify-otp', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user && user.otp === req.body.otp) {
@@ -821,16 +830,12 @@ app.post('/verify-otp', async (req, res) => {
     }
 });
 
-// Login Check
 app.post('/login', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user) {
         if (req.body.password === user.password) {
-            if (!user.isVerified) {
-                return res.json({ success: false, errors: "Please verify your email first" });
-            }
-            const data = { user: { id: user.id } };
-            const token = jwt.sign(data, 'secret_ecom');
+            if (!user.isVerified) return res.json({ success: false, errors: "Please verify your email" });
+            const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
             res.json({ success: true, token });
         } else {
             res.json({ success: false, errors: "Wrong Password" });
@@ -840,11 +845,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Start Server on 0.0.0.0 for Koyeb
+// Start Server
 app.listen(port, "0.0.0.0", (error) => {
-    if (!error) {
-        console.log("Server Running on Port " + port);
-    } else {
-        console.log("Error: " + error);
-    }
+    if (!error) console.log("Server Running on Port " + port);
 });
