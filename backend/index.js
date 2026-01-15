@@ -971,33 +971,37 @@ app.get("/search/:key", async (req, res) => {
 app.post("/chatbot", async (req, res) => {
     try {
         const { message } = req.body;
+        const apiKey = process.env.GEMINI_API_KEY;
 
-        // Initialize inside the route to ensure process.env is ready
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        
-        // Use gemini-1.5-flash which is the most stable and free-tier friendly
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // Using standard fetch to the STABLE v1 API (bypassing the buggy v1beta)
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: `You are a helpful assistant for "Store". Help with: ${message}` }]
+                    }]
+                }),
+            }
+        );
 
-        // Creating a clean prompt
-        const systemInstruction = `You are a helpful assistant for the e-commerce website "Store". 
-        Only discuss clothing, orders, and store policies. Be concise.`;
-        
-        const prompt = `${systemInstruction}\nCustomer: ${message}`;
+        const data = await response.json();
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        if (data.error) {
+            console.error("Gemini API Error:", data.error.message);
+            return res.status(500).json({ success: false, reply: "AI Key error. Please check Koyeb settings." });
+        }
 
-        res.json({ success: true, reply: text });
+        const replyText = data.candidates[0].content.parts[0].text;
+        res.json({ success: true, reply: replyText });
+
     } catch (error) {
-        // This log is vital for Koyeb debugging
-        console.error("AI Error Details:", error.message);
-        
-        // Return a friendly message so the frontend doesn't crash
-        res.status(500).json({ 
-            success: false, 
-            reply: "I'm momentarily offline. Please try again in a few seconds!" 
-        });
+        console.error("Server Error:", error.message);
+        res.status(500).json({ success: false, reply: "I'm having trouble thinking right now!" });
     }
 });
 // --- END OF CHATBOT CODE ---
