@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-bottom: 100px;
+    margin-bottom: 100px; /* Space before footer */
 }
 
 .recommendations h1 {
@@ -23,17 +23,34 @@
     display: flex;
     margin-top: 50px;
     gap: 30px;
+    flex-wrap: wrap; /* Ensures items wrap on smaller screens */
+    justify-content: center;
 }
 
-/* Adjust for mobile screens */
-@media(max-width: 1280px) {
-    .recommendations h1 { font-size: 40px; }
-    .recommendations hr { width: 160px; height: 5px; }
-    .recommendations-item { gap: 20px; }
+/* Responsiveness to match Popular section */
+@media (max-width: 1280px) {
+    .recommendations h1 {
+        font-size: 40px;
+    }
+    .recommendations hr {
+        width: 160px;
+        height: 5px;
+    }
+    .recommendations-item {
+        gap: 20px;
+        margin-top: 30px;
+    }
 }
 
-@media(max-width: 1024px) {
-    .recommendations h1 { font-size: 30px; }
-    .recommendations hr { width: 120px; height: 4px; }
-    .recommendations-item { gap: 15px; }
+@media (max-width: 1024px) {
+    .recommendations h1 {
+        font-size: 30px;
+    }
+    .recommendations hr {
+        width: 120px;
+        height: 4px;
+    }
+    .recommendations-item {
+        gap: 15px;
+    }
 }
