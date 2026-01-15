@@ -693,6 +693,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const nodemailer = require('nodemailer');
 
 // Import Stripe Logic
 const paymentLogic = require('./payment');
@@ -749,13 +750,43 @@ const Product = mongoose.model("Product", {
     available: { type: Boolean, default: true },
 });
 
+// const Users = mongoose.model('Users', {
+//     name: { type: String },
+//     email: { type: String, unique: true },
+//     password: { type: String },
+//     cartData: { type: Object },
+//     date: { type: Date, default: Date.now }
+// });
+
+
+
+
+
 const Users = mongoose.model('Users', {
     name: { type: String },
     email: { type: String, unique: true },
     password: { type: String },
     cartData: { type: Object },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    isVerified: { type: Boolean, default: false }, // New field
+    otp: { type: String } // To store the temporary code
 });
+
+
+
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'your-email@gmail.com', 
+        pass: 'your-app-password' // Get this from Google Account -> Security
+    }
+});
+
+
+
+
+
 
 // --- Middleware ---
 const fetchUser = async (req, res, next) => {
@@ -826,23 +857,116 @@ app.get('/relatedproducts/:id/:category', async (req, res) => {
 });
 
 // Auth & Cart
+// app.post('/signup', async (req, res) => {
+//     let check = await Users.findOne({ email: req.body.email });
+//     if (check) return res.status(400).json({ success: false, errors: "Existing User" });
+//     let cart = {}; for (let i = 0; i < 301; i++) { cart[i] = 0; }
+//     const user = new Users({ ...req.body, cartData: cart });
+//     await user.save();
+//     const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
+//     res.json({ success: true, token });
+// });
+
+
+
+
+
+
+
+
 app.post('/signup', async (req, res) => {
     let check = await Users.findOne({ email: req.body.email });
-    if (check) return res.status(400).json({ success: false, errors: "Existing User" });
-    let cart = {}; for (let i = 0; i < 301; i++) { cart[i] = 0; }
-    const user = new Users({ ...req.body, cartData: cart });
+    if (check) return res.status(400).json({ success: false, errors: "Existing user found" });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate 6-digit OTP
+    let cart = {};
+    for (let i = 0; i < 300; i++) { cart[i] = 0; }
+
+    const user = new Users({
+        name: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        cartData: cart,
+        otp: otp
+    });
+
     await user.save();
-    const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
-    res.json({ success: true, token });
+
+    // Send the Email
+    const mailOptions = {
+        from: 'your-email@gmail.com',
+        to: user.email,
+        subject: 'Verify your E-commerce Account',
+        text: `Your verification code is: ${otp}`
+    };
+
+    const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS 
+    }
 });
+});
+
+
+
+
+
+
+app.post('/verify-otp', async (req, res) => {
+    let user = await Users.findOne({ email: req.body.email });
+    if (user && user.otp === req.body.otp) {
+        await Users.findOneAndUpdate({ email: req.body.email }, { isVerified: true, otp: "" });
+        res.json({ success: true, message: "Account Verified Successfully" });
+    } else {
+        res.json({ success: false, message: "Invalid OTP" });
+    }
+});
+
+
+
+
+
+
+
+// app.post('/login', async (req, res) => {
+//     let user = await Users.findOne({ email: req.body.email });
+//     if (user && req.body.password === user.password) {
+//         const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
+//         res.json({ success: true, token });
+//     } else { res.json({ success: false, errors: "Wrong Credentials" }); }
+// });
+
+
+
+
+
 
 app.post('/login', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
-    if (user && req.body.password === user.password) {
-        const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
-        res.json({ success: true, token });
-    } else { res.json({ success: false, errors: "Wrong Credentials" }); }
+    if (user) {
+        const passCompare = req.body.password === user.password;
+        if (passCompare) {
+            // Check if verified
+            if (!user.isVerified) {
+                return res.json({ success: false, errors: "Please verify your email first" });
+            }
+            // If verified, proceed with JWT token
+            const data = { user: { id: user.id } };
+            const token = jwt.sign(data, 'secret_ecom');
+            res.json({ success: true, token });
+        } else {
+            res.json({ success: false, errors: "Wrong Password" });
+        }
+    } else {
+        res.json({ success: false, errors: "Wrong Email Id" });
+    }
 });
+
+
+
+
 
 app.post('/getcart', fetchUser, async (req, res) => {
     let userData = await Users.findOne({_id: req.user.id});
