@@ -954,6 +954,46 @@ app.get("/search/:key", async (req, res) => {
     }
 });
 
-app.listen(port, "0.0.0.0", (error) => {
-    if (!error) console.log("Server Running on Port " + port);
+
+
+
+// ... existing product and user routes ...
+
+// --- ADD THE CHATBOT CODE HERE ---
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Setup Gemini
+// This tells the server to look for the key in its settings, not in the code
+const genAI = new GoogleGenerativeAI(process.env.AIzaSyDIhtlGkKjZA46sfAPTJ5pODiFiPEs2ZvM);
+
+app.post("/chatbot", async (req, res) => {
+    try {
+        const { message } = req.body;
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = `You are a helpful assistant for "Store". 
+        Rules:
+        1. Only help with clothing and store policies.
+        2. Keep answers short.
+        Customer says: ${message}`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        res.json({ success: true, reply: text });
+    } catch (error) {
+        console.error("Chatbot Error:", error);
+        res.status(500).json({ success: false, reply: "I'm having a little trouble connecting." });
+    }
+});
+// --- END OF CHATBOT CODE ---
+
+// Your existing app.listen should be the very last thing
+app.listen(port, (error) => {
+    if (!error) {
+        console.log("Server Running on Port " + port);
+    } else {
+        console.log("Error : " + error);
+    }
 });

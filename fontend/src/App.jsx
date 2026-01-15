@@ -91,11 +91,12 @@ import men_banner from './Components/Assets/banner_mens.png';
 import women_banner from './Components/Assets/banner_women.png';
 import kid_banner from './Components/Assets/banner_kids.png';
 import SearchResults from './Components/SearchResults/SearchResults';
+import ChatBot from './Components/ChatBot/ChatBot';
+import CheckOut from './Components/CheckOut/CheckOut';
 
 // Stripe Elements
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import CheckOut from './Components/CheckOut/CheckOut';
 
 const stripePromise = loadStripe("pk_test_51SnHBkCtxpb4SCTkqa7L4U0NTemhr7oETBUJri5uLk0X2Cysed6qQ8rSCsIJNkVpz90r1BVkvXR23gfCSegjGTjU00aTCD4xxA");
 
@@ -121,6 +122,7 @@ function App() {
           } />
         </Routes>
         <Footer />
+        <ChatBot />
       </BrowserRouter>
     </div>
   );
