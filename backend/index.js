@@ -741,17 +741,14 @@ const Product = mongoose.model("Product", {
 
 
 
-
 const Users = mongoose.model('Users', {
     name: { type: String },
     email: { type: String, unique: true },
     password: { type: String },
     cartData: { type: Object },
-    // ADD THIS LINE BELOW
-    interests: { type: [String], default: [] }, 
+    // Change this from [String] to Object
+    interests: { type: Object, default: {} }, 
     date: { type: Date, default: Date.now },
-    isVerified: { type: Boolean, default: false },
-    otp: { type: String }
 });
 
 
@@ -1061,10 +1058,14 @@ app.post("/chatbot", async (req, res) => {
 app.post('/update-interests', fetchUser, async (req, res) => {
     try {
         const { category } = req.body;
-        // Add the category to the user's interest list if it's not already there
-        await Users.findByIdAndUpdate(req.user.id, {
-            $addToSet: { interests: category } 
-        });
+        const user = await Users.findById(req.user.id);
+        
+        let currentInterests = user.interests || {};
+        
+        // Increase the score for this category by 1
+        currentInterests[category] = (currentInterests[category] || 0) + 1;
+
+        await Users.findByIdAndUpdate(req.user.id, { interests: currentInterests });
         res.json({ success: true });
     } catch (error) {
         res.status(500).json({ success: false });
@@ -1079,42 +1080,32 @@ app.get('/recommendations', async (req, res) => {
         let products = [];
 
         if (token) {
-            try {
-                const data = jwt.verify(token, 'secret_ecom');
-                const user = await Users.findOne({ _id: data.user.id });
-                
-                // FIX: Ensure interests exist and are not empty
-                if (user && user.interests && user.interests.length > 0) {
-                    
-                    // 1. Force lowercase/uppercase match check
-                    // We search for products where the category is in the user's interests list
-                    products = await Product.find({ 
-                        category: { $in: user.interests }, 
-                        available: true 
-                    }).limit(4);
+            const data = jwt.verify(token, 'secret_ecom');
+            const user = await Users.findOne({ _id: data.user.id });
 
-                    console.log(`Found ${products.length} products for interests: ${user.interests}`);
-                }
-            } catch (err) {
-                console.log("Token verification failed");
+            if (user && user.interests && Object.keys(user.interests).length > 0) {
+                // Sort categories by highest score
+                const sortedInterests = Object.entries(user.interests)
+                    .sort((a, b) => b[1] - a[1]) // Highest score first
+                    .map(entry => entry[0]);
+
+                // Fetch products matching the TOP interest first
+                products = await Product.find({ 
+                    category: sortedInterests[0], 
+                    available: true 
+                }).limit(4);
             }
         }
 
-        // 2. FALLBACK: Only runs if NO products were found above
         if (products.length === 0) {
-            console.log("No interest-based products found. Showing newest arrivals.");
-            products = await Product.find({ available: true })
-                .sort({ date: -1 }) 
-                .limit(4);
+            products = await Product.find({ available: true }).sort({ date: -1 }).limit(4);
         }
 
         res.json(products);
     } catch (error) {
-        console.error("Critical Recommendation Error:", error);
-        res.status(500).send("Server Error");
+        res.status(500).send("Error");
     }
 });
-
 
 
 
