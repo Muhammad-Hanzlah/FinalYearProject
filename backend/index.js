@@ -967,16 +967,22 @@ app.get("/search/:key", async (req, res) => {
 
 // Setup Gemini
 // This tells the server to look for the key in its settings, not in the code
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// --- UPDATED CHATBOT CODE ---
 app.post("/chatbot", async (req, res) => {
     try {
         const { message } = req.body;
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const prompt = `You are a helpful assistant for "Store". 
-        Rules:
-        1. Only help with clothing and store policies.
-        2. Keep answers short.
-        Customer says: ${message}`;
+
+        // Initialize inside the route to ensure process.env is ready
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        
+        // Use gemini-1.5-flash which is the most stable and free-tier friendly
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        // Creating a clean prompt
+        const systemInstruction = `You are a helpful assistant for the e-commerce website "Store". 
+        Only discuss clothing, orders, and store policies. Be concise.`;
+        
+        const prompt = `${systemInstruction}\nCustomer: ${message}`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
@@ -984,12 +990,17 @@ app.post("/chatbot", async (req, res) => {
 
         res.json({ success: true, reply: text });
     } catch (error) {
-        console.error("Chatbot Error:", error);
-        res.status(500).json({ success: false, reply: "I'm having a little trouble connecting." });
+        // This log is vital for Koyeb debugging
+        console.error("AI Error Details:", error.message);
+        
+        // Return a friendly message so the frontend doesn't crash
+        res.status(500).json({ 
+            success: false, 
+            reply: "I'm momentarily offline. Please try again in a few seconds!" 
+        });
     }
 });
 // --- END OF CHATBOT CODE ---
-
 // Your existing app.listen should be the very last thing
 app.listen(port, (error) => {
     if (!error) {
