@@ -697,6 +697,10 @@ const nodemailer = require('nodemailer');
 
 const paymentLogic = require('./payment');
 
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+
 app.use(express.json());
 app.use(cors());
 app.use('/images', express.static('upload/images'));
@@ -960,7 +964,6 @@ app.get("/search/:key", async (req, res) => {
 // ... existing product and user routes ...
 
 // --- ADD THE CHATBOT CODE HERE ---
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Setup Gemini
 // This tells the server to look for the key in its settings, not in the code
