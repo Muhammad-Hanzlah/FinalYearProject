@@ -298,13 +298,13 @@
 
     .nav-search-container {
         order: -1; /* Forces search bar to the top of all other elements */
-        width: 100%; /* Spans the full width */
+        width: 50%; /* Spans the full width */
         margin: 5px 0 15px 0; /* Spacing below the search bar */
         display: flex;
     }
 
     .nav-search-container input {
-        width: 50%; /* Makes search bar longer for better UX */
+        width: 100%; /* Makes search bar longer for better UX */
     }
 }
 
