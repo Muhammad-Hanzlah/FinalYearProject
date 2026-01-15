@@ -686,10 +686,7 @@
 
 
 
-
-
-
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 const port = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
@@ -700,13 +697,13 @@ const path = require("path");
 const cors = require("cors");
 const nodemailer = require('nodemailer');
 
-// Import Stripe Logic (Preserved)
+// Import Stripe Logic (Restored)
 const paymentLogic = require('./payment');
 
 app.use(express.json());
 app.use(cors());
 
-// Serve images statically (Preserved)
+// Serve images statically (Restored)
 app.use('/images', express.static('upload/images'));
 
 // MongoDB Connection
@@ -714,7 +711,7 @@ mongoose.connect("mongodb+srv://Hanzalo:Pakistan%40431@cluster0.scoor7b.mongodb.
     .then(() => console.log("DB Connected"))
     .catch((err) => console.log("DB Connection Error:", err));
 
-// --- Image Upload Logic for Admin (Preserved) ---
+// --- Image Upload Logic for Admin (Restored) ---
 const storage = multer.diskStorage({
     destination: './upload/images',
     filename: (req, file, cb) => {
@@ -726,12 +723,12 @@ const upload = multer({ storage: storage });
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        // Updated to use your live Koyeb URL for the frontend to see images
+        // Using live Koyeb URL for production visibility
         image_url: `https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/images/${req.file.filename}`
     });
 });
 
-// --- Schemas (Preserved & Enhanced) ---
+// --- Schemas (Fully Restored) ---
 const Product = mongoose.model("Product", {
     id: { type: Number, required: true },
     name: { type: String, required: true },
@@ -749,11 +746,11 @@ const Users = mongoose.model('Users', {
     password: { type: String },
     cartData: { type: Object },
     date: { type: Date, default: Date.now },
-    isVerified: { type: Boolean, default: false }, 
+    isVerified: { type: Boolean, default: false },
     otp: { type: String } 
 });
 
-// --- Middleware (Preserved) ---
+// --- Middleware (Restored) ---
 const fetchUser = async (req, res, next) => {
     const token = req.header('auth-token');
     if (!token) return res.status(401).send({ errors: "Please authenticate" });
@@ -764,7 +761,7 @@ const fetchUser = async (req, res, next) => {
     } catch (error) { res.status(401).send({ errors: "Invalid token" }); }
 };
 
-// --- API Routes (ALL Components Restored) ---
+// --- API Routes (EVERY Original Route Restored) ---
 
 app.post('/addproduct', async (req, res) => {
     let products = await Product.find({});
@@ -806,7 +803,7 @@ app.get('/relatedproducts/:id/:category', async (req, res) => {
     res.json(related);
 });
 
-// --- Auth Routes (Signup with Email Fix) ---
+// --- Auth Routes (Signup with verification check) ---
 app.post('/signup', async (req, res) => {
     try {
         let check = await Users.findOne({ email: req.body.email });
@@ -833,8 +830,8 @@ app.post('/signup', async (req, res) => {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: user.email,
-            subject: 'Verify your Account',
-            text: `Your code: ${otp}`
+            subject: 'Verify your E-commerce Account',
+            text: `Your verification code is: ${otp}`
         };
 
         transporter.sendMail(mailOptions, (error) => {
@@ -848,20 +845,20 @@ app.post('/verify-otp', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user && user.otp === req.body.otp) {
         await Users.findOneAndUpdate({ email: req.body.email }, { isVerified: true, otp: "" });
-        res.json({ success: true, message: "Verified" });
+        res.json({ success: true, message: "Account Verified Successfully" });
     } else { res.json({ success: false, message: "Invalid OTP" }); }
 });
 
 app.post('/login', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user && req.body.password === user.password) {
-        if (!user.isVerified) return res.json({ success: false, errors: "Verify email first" });
+        if (!user.isVerified) return res.json({ success: false, errors: "Please verify your email first" });
         const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
         res.json({ success: true, token });
     } else { res.json({ success: false, errors: "Wrong Credentials" }); }
 });
 
-// --- Cart Logic (Preserved) ---
+// --- Cart Logic (Restored) ---
 app.post('/getcart', fetchUser, async (req, res) => {
     let userData = await Users.findOne({_id: req.user.id});
     res.json(userData.cartData);
@@ -881,7 +878,7 @@ app.post('/removefromcart', fetchUser, async (req, res) => {
     res.json({ success: true });
 });
 
-// --- Payment (Preserved Stripe Logic) ---
+// --- Payment (Restored Stripe Logic) ---
 app.post('/payment', fetchUser, async (req, res) => {
     try {
         const result = await paymentLogic(req.body.token, req.body.amount);
@@ -893,7 +890,7 @@ app.post('/payment', fetchUser, async (req, res) => {
     } catch (err) { res.status(500).json({ success: false, message: err.message }); }
 });
 
-// Start Server on 0.0.0.0 for Koyeb
+// Start Server (Cloud-ready)
 app.listen(port, "0.0.0.0", (error) => {
     if (!error) console.log("Server Running on Port " + port);
 });
