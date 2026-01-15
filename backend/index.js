@@ -817,7 +817,20 @@ app.get('/popularinwomen', async (req, res) => {
     let products = await Product.find({ category: "women" });
     res.json(products.slice(0, 4));
 });
-
+app.post('/relatedproducts', async (req, res) => {
+    const { category, id } = req.body;
+    try {
+        // Find 4 products in the same category, but EXCLUDE the current product
+        const products = await Product.find({ 
+            category: category, 
+            id: { $ne: id }, // $ne means "Not Equal" - prevents showing the same product
+            available: true 
+        }).limit(4);
+        res.json(products);
+    } catch (error) {
+        res.status(500).send("Error fetching related products");
+    }
+});
 // --- AUTH ROUTES ---
 app.post('/signup', async (req, res) => {
     try {
