@@ -964,8 +964,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Setup Gemini
 // This tells the server to look for the key in its settings, not in the code
-const genAI = new GoogleGenerativeAI(process.env.AIzaSyDIhtlGkKjZA46sfAPTJ5pODiFiPEs2ZvM);
-
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 app.post("/chatbot", async (req, res) => {
     try {
         const { message } = req.body;
