@@ -84,48 +84,182 @@
 
 
 
-/* Styling for the OTP Verification View */
-.loginsignup-fields p {
-    font-size: 16px;
-    color: #5c5c5c;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
 
-.loginsignup-fields p b {
-    color: #ff4141; /* Matches your theme's primary color */
-}
 
-/* Specific styling for the OTP input box */
-.loginsignup-fields input[type="text"] {
-    text-align: center;
-    font-size: 24px;
-    letter-spacing: 10px;
-    font-weight: 700;
-    color: #373737;
-    border: 1px solid #c9c9c9;
-    outline: none;
-    height: 65px;
+
+
+
+
+
+/* --- 1. Global Setup --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.loginsignup {
     width: 100%;
+    min-height: 100vh; /* Changed to min-height so it doesn't cut on long forms */
+    background: linear-gradient(180deg, #fce3e3 0%, #ffffff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 50px; /* Added side padding to prevent touching screen edges */
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-.loginsignup-fields input[type="text"]::placeholder {
+/* --- 2. The Main Container --- */
+.loginsignup-container {
+    width: 100%;
+    max-width: 500px; /* Slightly smaller for better focus */
+    background: #ffffff;
+    padding: 40px; /* Fixed: Symmetrical padding */
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    box-sizing: border-box; /* [CRITICAL] Ensures padding doesn't add to width */
+}
+
+.loginsignup-container h1 {
+    margin: 10px 0 30px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1c1c1c;
+}
+
+/* --- 3. Input Fields --- */
+.loginsignup-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Consistent spacing prevents overlapping */
+}
+
+.loginsignup-fields input {
+    height: 60px;
+    width: 100%;
+    padding-left: 20px;
+    border: 1.5px solid #e0e0e0;
+    outline: none;
+    color: #5c5c5c;
     font-size: 16px;
-    letter-spacing: normal;
-    font-weight: 400;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
 }
 
-/* Button hover effect for verification */
-.loginsignup-container button:active {
-    background: #ff4141;
+.loginsignup-fields input:focus {
+    border-color: #ff4141;
+}
+
+/* --- 4. Button --- */
+.loginsignup-container button {
+    width: 100%;
+    height: 60px;
     color: white;
-    transform: scale(0.98);
+    background: #ff4141;
+    margin-top: 25px;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s ease;
 }
 
-/* Error message styling */
-.error-msg {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
+.loginsignup-container button:hover {
+    background: #e03a3a;
+}
+
+/* --- 5. Footer Text --- */
+.loginsignup-login {
+    margin-top: 15px;
+    color: #5c5c5c;
+    font-size: 15px;
     font-weight: 500;
+}
+
+.loginsignup-login span {
+    color: #ff4141;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* --- 6. Checkbox Section (Fix for Cutting) --- */
+.loginsignup-agree {
+    display: flex;
+    align-items: flex-start; /* [FIX] Aligns checkbox to top of text on wrap */
+    margin-top: 25px;
+    gap: 12px;
+    color: #5c5c5c;
+    font-size: 14px;
+    line-height: 1.4; /* Better spacing for wrapped lines */
+}
+
+.loginsignup-agree input {
+    margin-top: 3px; /* Aligns checkbox with the first line of text */
+    min-width: 18px; /* [FIX] Prevents checkbox from shrinking to zero */
+    height: 18px;
+}
+
+
+
+
+/* ... Keep all your existing CSS and add these below ... */
+
+.otp-text {
+    color: #5c5c5c;
+    font-size: 15px;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.otp-text b {
+    color: #ff4141;
+}
+
+.otp-input {
+    text-align: center;
+    font-size: 22px !important;
+    letter-spacing: 8px;
+    font-weight: 700;
+}
+
+/* Ensure the Resend text looks like the Login link */
+.loginsignup-login span {
+    user-select: none;
+}
+
+/* Fix for container when verifying */
+.otp-container-verify {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* =========================================
+   RESPONSIVENESS (The Final Fix)
+   ========================================= */
+
+@media (max-width: 500px) {
+    .loginsignup {
+        padding-top: 80px;
+    }
+
+    .loginsignup-container {
+        padding: 30px 20px; /* Reduced padding on small mobile */
+        border-radius: 10px;
+    }
+
+    .loginsignup-container h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .loginsignup-fields input, 
+    .loginsignup-container button {
+        height: 50px;
+        font-size: 15px;
+    }
+
+    .loginsignup-agree {
+        font-size: 13px;
+    }
 }
