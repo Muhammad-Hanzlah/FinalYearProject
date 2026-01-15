@@ -86,10 +86,6 @@
 
 
 
-
-
-
-
 /* ===== RESET ===== */
 * {
   margin: 0;
@@ -102,7 +98,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* 1.8-inch side margins for a premium, spacious feel */
   padding: 15px 1.8in; 
   background: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -155,7 +150,6 @@
   color: #ff4141;
 }
 
-/* Active underline */
 .nav-menu hr {
   width: 100%;
   height: 3px;
@@ -167,6 +161,41 @@
   left: 0;
 }
 
+/* ===== SEARCH BAR STYLING ===== */
+.nav-search-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.nav-search-container {
+  display: flex;
+  align-items: center;
+  background: #f1f1f1;
+  border-radius: 25px;
+  padding: 2px 5px 2px 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.nav-search-container input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  width: 150px;
+  color: #444;
+}
+
+.nav-search-container button {
+  border: none;
+  background: #ff4141;
+  color: white;
+  border-radius: 20px;
+  padding: 6px 15px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 /* ===== LOGIN & CART ===== */
 .nav-login-cart {
   display: flex;
@@ -174,16 +203,14 @@
   gap: 25px;
 }
 
-/* Kill Underline for the Login Link */
 .nav-login-cart a {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
 .nav-login-cart button {
   padding: 8px 20px;
   border-radius: 20px;
   border: none;
-  /* Premium Gradient Design */
   background: linear-gradient(135deg, #ff4141 0%, #ff6b6b 100%);
   color: white;
   font-weight: 600;
@@ -193,17 +220,11 @@
   transition: all 0.3s ease;
 }
 
-.nav-login-cart button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(255, 65, 65, 0.3);
-}
-
 .nav-login-cart img {
   width: 28px;
   cursor: pointer;
 }
 
-/* Cart Count (Preserved Logic) */
 .nav-cart-count {
   width: 20px;
   height: 20px;
@@ -220,161 +241,98 @@
   border: 1.5px solid white;
 }
 
-/* ===== TOGGLE ICON (Triggered at < 670px) ===== */
-.Navbar > img:not(.nav-logo img):not(.nav-login-cart img) {
+/* Hide toggle icon on desktop */
+.nav-dropdown-icon {
   display: none;
   width: 28px;
   cursor: pointer;
 }
 
-
-
-.nav-search-container {
-    display: flex;
-    align-items: center;
-    background: #f1f1f1;
-    border-radius: 25px; /* Matches your button curves */
-    padding: 2px 5px 2px 15px;
-    margin: 0 15px; /* Balanced spacing */
-    border: 1px solid #e0e0e0;
-    transition: 0.3s;
-}
-
-.nav-search-container:focus-within {
-    border-color: #ff4141;
-    background: #fff;
-}
-
-.nav-search-container input {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 14px;
-    width: 140px; /* Kept small to fit premium desktop spacing */
-    color: #444;
-}
-
-.nav-search-container button {
-    border: none;
-    background: #ff4141;
-    color: white;
-    border-radius: 20px;
-    padding: 6px 15px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    transition: 0.3s;
-    box-shadow: none; /* Removed shadow to keep it clean */
-    margin-top: 0; /* Reset for your button global style */
-}
-
-.nav-search-container button:hover {
-    background: #e03a3a;
-    transform: none; /* Keeps search bar stable */
-}
-
 /* =========================================================
    RESPONSIVE LOGIC
    ========================================================= */
 
-/* =========================================================
-   RESPONSIVE LOGIC
-   ========================================================= */
-
-/* 1. Large Screen Adjustment */
 @media (max-width: 1200px) {
-    .Navbar {
-        padding: 15px 5%; 
-    }
+  .Navbar {
+    padding: 15px 5%; 
+  }
 }
 
-/* 2. New 900px Logic: Move Search to Top */
 @media (max-width: 900px) {
-    .Navbar {
-        flex-wrap: wrap; /* Allows search to jump to a new line */
-        padding: 10px 5%;
-        justify-content: space-between;
-    }
-
-    .nav-search-container {
-        order: -1; /* Forces search bar to the top of all other elements */
-        width: 100%; /* Spans the full width */
-        margin: 5px 0 15px 0; /* Spacing below the search bar */
-        display: flex;
-    }
-
-    .nav-search-container input {
-        width: 100%; /* Makes search bar longer for better UX */
-    }
+  .nav-search-container input {
+    width: 120px;
+  }
 }
 
-/* 3. Your Existing 670px Mobile Logic (Dropdown & Toggle) */
-@media (max-width: 670px) {
-    .Navbar {
-        padding: 12px 20px; 
-    }
+@media (max-width: 750px) {
+  .Navbar {
+    padding: 12px 20px; 
+  }
 
-    /* Show the Toggle Icon */
-    .Navbar > img:not(.nav-logo img):not(.nav-login-cart img) {
-        display: block;
-    }
+  .nav-dropdown-icon {
+    display: block;
+  }
 
-    /* HORIZONTAL GLASS DROPDOWN */
-    .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        flex-direction: row; 
-        justify-content: center;
-        gap: 15px;
-        padding: 15px 0;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-        transform: translateY(-10px);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-    }
+  /* TOGGLE MENU STYLING */
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Stack Search above links */
+    flex-direction: column; 
+    justify-content: center;
+    gap: 20px;
+    padding: 25px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 
-    .nav-manue-visible {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-    }
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-    .nav-menu li a {
-        font-size: 14px;
-        font-weight: 600;
-    }
+  .nav-manue-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
 
-    .nav-login-cart button {
-        padding: 6px 15px;
-        font-size: 12px;
-    }
+  /* Search bar specifically inside the toggle */
+  .nav-search-wrapper {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .nav-search-container {
+    width: 70%; /* Covers center of screen in toggle */
+  }
+
+  .nav-search-container input {
+    width: 100%;
+  }
+
+  .nav-menu li a {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .nav-login-cart button {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
 }
 
-/* 4. Small Tablet Polish (Replaces your 1050px width fix) */
-@media (max-width: 1050px) and (min-width: 901px) {
-    .nav-search-container input {
-        width: 100px;
-    }
-}
-
-/* 5. Mobile Button Adjustment */
-@media (max-width: 480px) {
-    .nav-search-container button {
-        padding: 6px 10px;
-        font-size: 11px;
-    }
-}
-
-/* 6. Small Device Polish */
 @media (max-width: 380px) {
-    .nav-logo p {
-        display: none;
-    }
+  .nav-logo p {
+    display: none;
+  }
+  .nav-search-container {
+    width: 90%;
+  }
 }
