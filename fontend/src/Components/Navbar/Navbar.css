@@ -304,7 +304,7 @@
     }
 
     .nav-search-container input {
-        width: 100%; /* Makes search bar longer for better UX */
+        width: 50%; /* Makes search bar longer for better UX */
     }
 }
 
