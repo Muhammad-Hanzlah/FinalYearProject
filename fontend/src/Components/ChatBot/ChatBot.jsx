@@ -80,14 +80,8 @@
 
 
 
-
-
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css';
-import chat_icon from './../Assets/chat_icon.png'; 
 
 const ChatBot = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -115,7 +109,6 @@ const ChatBot = () => {
         setIsTyping(true); // Shows the typing dots
 
         try {
-            // Replace with your actual Koyeb backend URL
             const response = await fetch("https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/chatbot", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -143,7 +136,8 @@ const ChatBot = () => {
         <div className="chatbot-container">
             {!isOpen && (
                 <div className="chat-bubble" onClick={() => setIsOpen(true)}>
-                    <img src={chat_icon} alt="chat icon" />
+                    {/* Replaced broken image with Emoji to fix build */}
+                    <span className="chat-icon-emoji">💬</span>
                 </div>
             )}
 

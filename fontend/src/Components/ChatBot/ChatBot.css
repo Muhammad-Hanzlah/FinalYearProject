@@ -21,7 +21,12 @@
 }
 
 .chat-bubble:hover { transform: scale(1.1); }
-.chat-bubble img { width: 35px; height: 35px; filter: brightness(0) invert(1); }
+
+/* Center the Emoji Icon */
+.chat-icon-emoji {
+    font-size: 30px;
+    line-height: 1;
+}
 
 /* Chat Window */
 .chat-window {
