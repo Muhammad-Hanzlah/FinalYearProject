@@ -1072,31 +1072,42 @@ app.post('/update-interests', fetchUser, async (req, res) => {
 });
 
 // 2. Route to Get Personalized Recommendations
-app.get('/recommendations', fetchUser, async (req, res) => {
+// Note: We removed the 'fetchUser' middleware to allow guests to access this
+app.get('/recommendations', async (req, res) => {
     try {
-        let user = await Users.findOne({ _id: req.user.id });
-        let products;
+        const token = req.header('auth-token');
+        let products = [];
 
-        if (user && user.interests && user.interests.length > 0) {
-            // Find products matching the categories the user likes
-            products = await Product.find({ 
-                category: { $in: user.interests },
-                available: true 
-            }).limit(4);
-        } 
+        // 1. Try to get personalized products if a token exists
+        if (token) {
+            try {
+                const data = jwt.verify(token, 'secret_ecom');
+                const user = await Users.findOne({ _id: data.user.id });
+                
+                if (user && user.interests.length > 0) {
+                    products = await Product.find({ 
+                        category: { $in: user.interests }, 
+                        available: true 
+                    }).limit(4);
+                }
+            } catch (err) {
+                // If token is invalid, just treat them as a guest
+                console.log("Invalid token, providing guest view");
+            }
+        }
 
-        // Fallback: If no interests yet, show the newest items
-        if (!products || products.length === 0) {
-            products = await Product.find({ available: true }).sort({ date: -1 }).limit(4);
+        // 2. If guest OR user has no interests yet, show NEWEST products
+        if (products.length === 0) {
+            products = await Product.find({ available: true })
+                .sort({ date: -1 }) 
+                .limit(4);
         }
 
         res.json(products);
     } catch (error) {
-        res.status(500).send("Error");
+        res.status(500).send("Server Error");
     }
 });
-
-
 
 
 

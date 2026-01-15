@@ -6,18 +6,25 @@ const Recommendations = () => {
     const [recommended, setRecommended] = useState([]);
 
     useEffect(() => {
-        // Fetch personalized products from the backend
-        fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/recommendations', {
-            method: 'GET',
-            headers: {
-                'auth-token': `${localStorage.getItem('auth-token')}`, // Identifies the user
-                'Content-Type': 'application/json',
-            },
-        })
-        .then((response) => response.json())
-        .then((data) => setRecommended(data))
-        .catch((err) => console.log("Error fetching recommendations:", err));
-    }, []);
+    const fetchRecommendations = async () => {
+        const token = localStorage.getItem('auth-token');
+        try {
+            const response = await fetch('https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/recommendations', {
+                method: 'GET',
+                headers: {
+                    'auth-token': token ? token : '', // Send token only if available
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            setRecommended(data);
+        } catch (err) {
+            console.log("Error fetching recommendations:", err);
+        }
+    };
+
+    fetchRecommendations();
+}, []); // Runs once on mount
 
     return (
         <div className='recommendations'>
