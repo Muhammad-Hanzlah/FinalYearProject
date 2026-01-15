@@ -973,36 +973,45 @@ app.post("/chatbot", async (req, res) => {
         const { message } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
 
-        // Use the current stable gemini-2.5-flash model
+        // --- CUSTOMIZE YOUR STORE DETAILS HERE ---
+        const storeInfo = {
+            name: "Hanzala's Fashion Store",
+            shipping: "Free shipping on orders over $50. Otherwise, it's $5 flat rate.",
+            returns: "15-day easy returns if tags are attached. No returns on 'Final Sale' items.",
+            categories: "Mens, Womens, and Kids clothing.",
+            featured: "Our bestsellers are the 'Sporty Cotton T-shirt' and 'Elegant Summer Dress'."
+        };
+
+        const systemInstruction = `You are the official AI Assistant for ${storeInfo.name}.
+        RULES:
+        1. Only answer questions about our products and policies.
+        2. Shipping Policy: ${storeInfo.shipping}
+        3. Return Policy: ${storeInfo.returns}
+        4. We sell: ${storeInfo.categories}
+        5. Featured Items: ${storeInfo.featured}
+        6. If asked about non-store topics (like coding or world news), politely decline.
+        7. Keep all responses friendly and under 3 sentences.`;
+
         const response = await fetch(
             `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
             {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: `You are an e-commerce assistant for "Store". Help the user with: ${message}` }]
+                        parts: [{ text: `${systemInstruction}\n\nCustomer Message: ${message}` }]
                     }]
                 }),
             }
         );
 
         const data = await response.json();
-
-        if (data.error) {
-            console.error("Gemini API Error:", data.error.message);
-            // If it still fails, the error will tell us why
-            return res.status(500).json({ success: false, reply: "System update in progress. Please re-try." });
-        }
-
         const replyText = data.candidates[0].content.parts[0].text;
         res.json({ success: true, reply: replyText });
 
     } catch (error) {
-        console.error("Server Error:", error.message);
-        res.status(500).json({ success: false, reply: "Thinking... try again in a moment!" });
+        console.error("Chatbot Error:", error.message);
+        res.status(500).json({ success: false, reply: "I'm having a small technical glitch. Try again!" });
     }
 });
 // --- END OF CHATBOT CODE ---
