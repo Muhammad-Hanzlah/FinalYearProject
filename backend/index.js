@@ -680,8 +680,7 @@
 
 
 
-
-
+require('dotenv').config(); // Load environment variables at the very top
 const port = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
@@ -744,17 +743,6 @@ const Users = mongoose.model('Users', {
     otp: { type: String }
 });
 
-// --- Middleware ---
-const fetchUser = async (req, res, next) => {
-    const token = req.header('auth-token');
-    if (!token) return res.status(401).send({ errors: "Please authenticate" });
-    try {
-        const data = jwt.verify(token, 'secret_ecom');
-        req.user = data.user;
-        next();
-    } catch (error) { res.status(401).send({ errors: "Invalid token" }); }
-};
-
 // --- API Routes ---
 
 app.get('/allproducts', async (req, res) => {
@@ -762,7 +750,20 @@ app.get('/allproducts', async (req, res) => {
     res.json(products);
 });
 
-// Signup Route with Email Verification
+// Global Transporter Setup
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, 
+    auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS 
+    },
+    tls: { rejectUnauthorized: false }
+});
+
+// Signup Route
 app.post('/signup', async (req, res) => {
     try {
         let check = await Users.findOne({ email: req.body.email });
@@ -782,19 +783,11 @@ app.post('/signup', async (req, res) => {
 
         await user.save();
 
-        // Transporter setup with Port 587 for Cloud compatibility
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false, 
-            auth: {
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS 
-            },
-            tls: { rejectUnauthorized: false },
-            connectionTimeout: 10000 
-        });
+        // Check if credentials exist before sending to avoid "PLAIN" error
+        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+            console.error("CRITICAL: Email credentials missing in environment variables!");
+            return res.status(500).json({ success: false, message: "Server email configuration error" });
+        }
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -803,23 +796,21 @@ app.post('/signup', async (req, res) => {
             text: `Your verification code is: ${otp}`
         };
 
-        // Send the email and then respond to the client
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log("Email Error:", error);
-                // Return response so request doesn't hang
-                return res.json({ success: false, message: "User saved, but email failed", error: error.message });
+                console.log("Nodemailer Error:", error);
+                return res.json({ success: false, message: "User saved but email failed", error: error.message });
             }
             res.json({ success: true, message: "OTP sent to email" });
         });
 
     } catch (error) {
-        console.error("Signup Error:", error);
+        console.error("Signup Catch Error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
 
-// Verify OTP Route
+// Verify OTP
 app.post('/verify-otp', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user && user.otp === req.body.otp) {
@@ -830,7 +821,7 @@ app.post('/verify-otp', async (req, res) => {
     }
 });
 
-// Login Route with Verification Check
+// Login Check
 app.post('/login', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user) {
@@ -849,33 +840,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Other existing routes (addproduct, removeproduct, cart logic, etc.)
-app.post('/addproduct', async (req, res) => {
-    let products = await Product.find({});
-    let id = products.length > 0 ? products.slice(-1)[0].id + 1 : 1;
-    const product = new Product({ ...req.body, id });
-    await product.save();
-    res.json({ success: true, name: req.body.name });
-});
-
-app.post('/getcart', fetchUser, async (req, res) => {
-    let userData = await Users.findOne({_id: req.user.id});
-    res.json(userData.cartData);
-});
-
-// Payment Route
-app.post('/payment', fetchUser, async (req, res) => {
-    try {
-        const result = await paymentLogic(req.body.token, req.body.amount);
-        if (result.status === 'succeeded' || result.id) {
-            let cart = {}; for (let i = 0; i < 301; i++) { cart[i] = 0; }
-            await Users.findOneAndUpdate({_id:req.user.id}, {cartData: cart});
-            res.json({ success: true, paymentId: result.id });
-        }
-    } catch (err) { res.status(500).json({ success: false, message: err.message }); }
-});
-
-// Final Koyeb Server Listener
+// Start Server on 0.0.0.0 for Koyeb
 app.listen(port, "0.0.0.0", (error) => {
     if (!error) {
         console.log("Server Running on Port " + port);
