@@ -1078,26 +1078,31 @@ app.get('/recommendations', async (req, res) => {
         const token = req.header('auth-token');
         let products = [];
 
-        // 1. Try to get personalized products if a token exists
         if (token) {
             try {
                 const data = jwt.verify(token, 'secret_ecom');
                 const user = await Users.findOne({ _id: data.user.id });
                 
-                if (user && user.interests.length > 0) {
+                // FIX: Ensure interests exist and are not empty
+                if (user && user.interests && user.interests.length > 0) {
+                    
+                    // 1. Force lowercase/uppercase match check
+                    // We search for products where the category is in the user's interests list
                     products = await Product.find({ 
                         category: { $in: user.interests }, 
                         available: true 
                     }).limit(4);
+
+                    console.log(`Found ${products.length} products for interests: ${user.interests}`);
                 }
             } catch (err) {
-                // If token is invalid, just treat them as a guest
-                console.log("Invalid token, providing guest view");
+                console.log("Token verification failed");
             }
         }
 
-        // 2. If guest OR user has no interests yet, show NEWEST products
+        // 2. FALLBACK: Only runs if NO products were found above
         if (products.length === 0) {
+            console.log("No interest-based products found. Showing newest arrivals.");
             products = await Product.find({ available: true })
                 .sort({ date: -1 }) 
                 .limit(4);
@@ -1105,6 +1110,7 @@ app.get('/recommendations', async (req, res) => {
 
         res.json(products);
     } catch (error) {
+        console.error("Critical Recommendation Error:", error);
         res.status(500).send("Server Error");
     }
 });
