@@ -973,9 +973,9 @@ app.post("/chatbot", async (req, res) => {
         const { message } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
 
-        // Using the v1 (Stable) endpoint instead of v1beta
+        // Use the current stable gemini-2.5-flash model
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
             {
                 method: "POST",
                 headers: {
@@ -983,7 +983,7 @@ app.post("/chatbot", async (req, res) => {
                 },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: `You are an assistant for "Store". Rules: Help with shopping only. User says: ${message}` }]
+                        parts: [{ text: `You are an e-commerce assistant for "Store". Help the user with: ${message}` }]
                     }]
                 }),
             }
@@ -991,23 +991,18 @@ app.post("/chatbot", async (req, res) => {
 
         const data = await response.json();
 
-        // Check if the response returned an actual error
         if (data.error) {
-            console.error("Gemini Error:", data.error.message);
-            return res.status(500).json({ success: false, reply: "System update in progress. Please try in a minute!" });
+            console.error("Gemini API Error:", data.error.message);
+            // If it still fails, the error will tell us why
+            return res.status(500).json({ success: false, reply: "System update in progress. Please re-try." });
         }
 
-        // Extract the reply safely
-        if (data.candidates && data.candidates[0].content) {
-            const replyText = data.candidates[0].content.parts[0].text;
-            res.json({ success: true, reply: replyText });
-        } else {
-            res.json({ success: true, reply: "I'm processing that, could you rephrase?" });
-        }
+        const replyText = data.candidates[0].content.parts[0].text;
+        res.json({ success: true, reply: replyText });
 
     } catch (error) {
-        console.error("Backend Error:", error.message);
-        res.status(500).json({ success: false, reply: "I'm having trouble thinking. Try again later!" });
+        console.error("Server Error:", error.message);
+        res.status(500).json({ success: false, reply: "Thinking... try again in a moment!" });
     }
 });
 // --- END OF CHATBOT CODE ---
