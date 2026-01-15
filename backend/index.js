@@ -746,11 +746,12 @@ const Users = mongoose.model('Users', {
     email: { type: String, unique: true },
     password: { type: String },
     cartData: { type: Object },
-    // Change this from [String] to Object
+    // Change this from Array to Object
     interests: { type: Object, default: {} }, 
     date: { type: Date, default: Date.now },
+    isVerified: { type: Boolean, default: false },
+    otp: { type: String }
 });
-
 
 
 
@@ -1060,11 +1061,13 @@ app.post('/update-interests', fetchUser, async (req, res) => {
         const { category } = req.body;
         const user = await Users.findById(req.user.id);
         
+        // Use an empty object if interests don't exist yet
         let currentInterests = user.interests || {};
         
-        // Increase the score for this category by 1
+        // Increase the score: if they click 'men', 'men' goes from 1 to 2
         currentInterests[category] = (currentInterests[category] || 0) + 1;
 
+        // Save the updated object back to MongoDB
         await Users.findByIdAndUpdate(req.user.id, { interests: currentInterests });
         res.json({ success: true });
     } catch (error) {
@@ -1084,23 +1087,22 @@ app.get('/recommendations', async (req, res) => {
             const user = await Users.findOne({ _id: data.user.id });
 
             if (user && user.interests && Object.keys(user.interests).length > 0) {
-                // Sort categories by highest score
-                const sortedInterests = Object.entries(user.interests)
-                    .sort((a, b) => b[1] - a[1]) // Highest score first
-                    .map(entry => entry[0]);
+                // Sort interests to find the favorite (highest score)
+                const favoriteCategory = Object.entries(user.interests)
+                    .sort((a, b) => b[1] - a[1])[0][0]; 
 
-                // Fetch products matching the TOP interest first
+                // Show products ONLY from that favorite category
                 products = await Product.find({ 
-                    category: sortedInterests[0], 
+                    category: favoriteCategory, 
                     available: true 
                 }).limit(4);
             }
         }
 
+        // Fallback if guest or no data
         if (products.length === 0) {
             products = await Product.find({ available: true }).sort({ date: -1 }).limit(4);
         }
-
         res.json(products);
     } catch (error) {
         res.status(500).send("Error");
