@@ -289,22 +289,24 @@
 }
 
 /* 2. New 900px Logic: Move Search to Top */
+/* 2. New 900px Logic: Search Bar Centered at 50% width */
 @media (max-width: 900px) {
     .Navbar {
         flex-wrap: wrap; /* Allows search to jump to a new line */
         padding: 10px 5%;
-        justify-content: space-between;
+        justify-content: space-between; /* Keeps Logo and Cart on edges below */
     }
 
     .nav-search-container {
-        order: -1; /* Forces search bar to the top of all other elements */
-        width: 50%; /* Spans the full width */
-        margin: 5px 0 15px 0; /* Spacing below the search bar */
+        order: -1; /* Forces search bar to the top */
+        width: 50%; /* Sets width to exactly half the screen */
+        margin: 5px auto 15px auto; /* 'auto' on left/right centers it perfectly */
         display: flex;
+        justify-content: center;
     }
 
     .nav-search-container input {
-        width: 100%; /* Makes search bar longer for better UX */
+        width: 100%; /* Ensures input fills the 50% container */
     }
 }
 
