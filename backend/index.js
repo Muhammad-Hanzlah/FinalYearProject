@@ -754,6 +754,27 @@ const fetchUser = async (req, res, next) => {
     } catch (error) { res.status(401).send({ errors: "Invalid token" }); }
 };
 
+
+app.post('/addtocart', fetchUser, async (req, res) => {
+    let userData = await Users.findOne({ _id: req.user.id });
+    userData.cartData[req.body.itemId] += 1;
+    await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+    res.send("Added");
+});
+
+app.post('/removefromcart', fetchUser, async (req, res) => {
+    let userData = await Users.findOne({ _id: req.user.id });
+    if (userData.cartData[req.body.itemId] > 0)
+        userData.cartData[req.body.itemId] -= 1;
+    await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+    res.send("Removed");
+});
+
+app.post('/getcart', fetchUser, async (req, res) => {
+    let userData = await Users.findOne({ _id: req.user.id });
+    res.json(userData.cartData);
+});
+
 // --- API Routes ---
 app.post('/addproduct', async (req, res) => {
     let products = await Product.find({});
