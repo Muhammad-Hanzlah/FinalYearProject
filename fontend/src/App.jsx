@@ -94,6 +94,7 @@ import SearchResults from './Components/SearchResults/SearchResults';
 import ChatBot from './Components/ChatBot/ChatBot';
 import CheckOut from './Components/CheckOut/CheckOut';
 
+
 // Stripe Elements
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
