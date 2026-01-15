@@ -973,7 +973,7 @@ app.post("/chatbot", async (req, res) => {
         const { message } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
 
-        // Using standard fetch to the STABLE v1 API (bypassing the buggy v1beta)
+        // Using the v1 (Stable) endpoint instead of v1beta
         const response = await fetch(
             `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
             {
@@ -983,7 +983,7 @@ app.post("/chatbot", async (req, res) => {
                 },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: `You are a helpful assistant for "Store". Help with: ${message}` }]
+                        parts: [{ text: `You are an assistant for "Store". Rules: Help with shopping only. User says: ${message}` }]
                     }]
                 }),
             }
@@ -991,17 +991,23 @@ app.post("/chatbot", async (req, res) => {
 
         const data = await response.json();
 
+        // Check if the response returned an actual error
         if (data.error) {
-            console.error("Gemini API Error:", data.error.message);
-            return res.status(500).json({ success: false, reply: "AI Key error. Please check Koyeb settings." });
+            console.error("Gemini Error:", data.error.message);
+            return res.status(500).json({ success: false, reply: "System update in progress. Please try in a minute!" });
         }
 
-        const replyText = data.candidates[0].content.parts[0].text;
-        res.json({ success: true, reply: replyText });
+        // Extract the reply safely
+        if (data.candidates && data.candidates[0].content) {
+            const replyText = data.candidates[0].content.parts[0].text;
+            res.json({ success: true, reply: replyText });
+        } else {
+            res.json({ success: true, reply: "I'm processing that, could you rephrase?" });
+        }
 
     } catch (error) {
-        console.error("Server Error:", error.message);
-        res.status(500).json({ success: false, reply: "I'm having trouble thinking right now!" });
+        console.error("Backend Error:", error.message);
+        res.status(500).json({ success: false, reply: "I'm having trouble thinking. Try again later!" });
     }
 });
 // --- END OF CHATBOT CODE ---
