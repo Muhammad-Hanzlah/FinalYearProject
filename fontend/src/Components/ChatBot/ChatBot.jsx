@@ -87,7 +87,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css';
-import chat_icon from '../assets/chat_icon.png'; 
+import chat_icon from './../Assets/chat_icon.png'; 
 
 const ChatBot = () => {
     const [isOpen, setIsOpen] = useState(false);
