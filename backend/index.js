@@ -685,7 +685,7 @@
 
 
 // const port = 4000;
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -999,7 +999,7 @@ app.post('/payment', fetchUser, async (req, res) => {
 });
 
 // app.listen(port, (error) => { if (!error) console.log("Server Running on Port " + port); });
-app.listen(port, (error) => {
+app.listen(port, "0.0.0.0", (error) => {
     if (!error) {
         console.log("Server Running on Port " + port);
     } else {
