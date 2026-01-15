@@ -689,9 +689,7 @@
 
 
 
-
-
-require('dotenv').config(); 
+require('dotenv').config(); // Load environment variables
 const port = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
@@ -702,13 +700,13 @@ const path = require("path");
 const cors = require("cors");
 const nodemailer = require('nodemailer');
 
-// Import Stripe Logic
+// Import Stripe Logic (Preserved)
 const paymentLogic = require('./payment');
 
 app.use(express.json());
 app.use(cors());
 
-// Serve images statically
+// Serve images statically (Preserved)
 app.use('/images', express.static('upload/images'));
 
 // MongoDB Connection
@@ -716,7 +714,7 @@ mongoose.connect("mongodb+srv://Hanzalo:Pakistan%40431@cluster0.scoor7b.mongodb.
     .then(() => console.log("DB Connected"))
     .catch((err) => console.log("DB Connection Error:", err));
 
-// --- Image Upload Logic ---
+// --- Image Upload Logic for Admin (Preserved) ---
 const storage = multer.diskStorage({
     destination: './upload/images',
     filename: (req, file, cb) => {
@@ -728,11 +726,12 @@ const upload = multer({ storage: storage });
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
+        // Updated to use your live Koyeb URL for the frontend to see images
         image_url: `https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/images/${req.file.filename}`
     });
 });
 
-// --- Schemas ---
+// --- Schemas (Preserved & Enhanced) ---
 const Product = mongoose.model("Product", {
     id: { type: Number, required: true },
     name: { type: String, required: true },
@@ -750,41 +749,64 @@ const Users = mongoose.model('Users', {
     password: { type: String },
     cartData: { type: Object },
     date: { type: Date, default: Date.now },
-    isVerified: { type: Boolean, default: false },
-    otp: { type: String }
+    isVerified: { type: Boolean, default: false }, 
+    otp: { type: String } 
 });
 
-// --- API Routes ---
+// --- Middleware (Preserved) ---
+const fetchUser = async (req, res, next) => {
+    const token = req.header('auth-token');
+    if (!token) return res.status(401).send({ errors: "Please authenticate" });
+    try {
+        const data = jwt.verify(token, 'secret_ecom');
+        req.user = data.user;
+        next();
+    } catch (error) { res.status(401).send({ errors: "Invalid token" }); }
+};
+
+// --- API Routes (ALL Components Restored) ---
+
+app.post('/addproduct', async (req, res) => {
+    let products = await Product.find({});
+    let id = products.length > 0 ? products.slice(-1)[0].id + 1 : 1;
+    const product = new Product({ ...req.body, id });
+    await product.save();
+    res.json({ success: true, name: req.body.name });
+});
+
+app.post('/removeproduct', async (req, res) => {
+    try {
+        await Product.findOneAndDelete({ id: req.body.id });
+        res.json({ success: true, name: req.body.name });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to remove product" });
+    }
+});
 
 app.get('/allproducts', async (req, res) => {
     let products = await Product.find({});
     res.json(products);
 });
 
-// RE-ADDED: New Collections Logic
 app.get('/newcollections', async (req, res) => {
     let products = await Product.find({});
-    let newcollection = products.slice(1).slice(-8); // Gets the last 8 added products
-    console.log("New Collections Fetched");
+    let newcollection = products.slice(1).slice(-8); 
     res.json(newcollection);
 });
 
-// RE-ADDED: Popular in Women Logic
 app.get('/popularinwomen', async (req, res) => {
     let products = await Product.find({ category: "women" });
-    let popular_in_women = products.slice(0, 4); // Gets first 4 women's products
-    console.log("Popular in Women Fetched");
+    let popular_in_women = products.slice(0, 4); 
     res.json(popular_in_women);
 });
 
-// RE-ADDED: Related Products Logic
 app.get('/relatedproducts/:id/:category', async (req, res) => {
     const { id, category } = req.params;
     let related = await Product.find({ category: category, id: { $ne: id } }).limit(4);
     res.json(related);
 });
 
-// Signup Route
+// --- Auth Routes (Signup with Email Fix) ---
 app.post('/signup', async (req, res) => {
     try {
         let check = await Users.findOne({ email: req.body.email });
@@ -792,7 +814,7 @@ app.post('/signup', async (req, res) => {
 
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         let cart = {};
-        for (let i = 0; i < 300; i++) { cart[i] = 0; }
+        for (let i = 0; i < 301; i++) { cart[i] = 0; }
 
         const user = new Users({
             name: req.body.username,
@@ -801,13 +823,7 @@ app.post('/signup', async (req, res) => {
             cartData: cart,
             otp: otp
         });
-
         await user.save();
-
-        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-            console.error("CRITICAL: Email credentials missing!");
-            return res.status(500).json({ success: false, message: "Server configuration error" });
-        }
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -817,412 +833,67 @@ app.post('/signup', async (req, res) => {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: user.email,
-            subject: 'Verify your E-commerce Account',
-            text: `Your verification code is: ${otp}`
+            subject: 'Verify your Account',
+            text: `Your code: ${otp}`
         };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return res.json({ success: false, message: "Email failed", error: error.message });
-            }
+        transporter.sendMail(mailOptions, (error) => {
+            if (error) return res.json({ success: false, message: "Email error", error: error.message });
             res.json({ success: true, message: "OTP sent to email" });
         });
-
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Internal Server Error" });
-    }
+    } catch (error) { res.status(500).json({ success: false }); }
 });
 
 app.post('/verify-otp', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user && user.otp === req.body.otp) {
         await Users.findOneAndUpdate({ email: req.body.email }, { isVerified: true, otp: "" });
-        res.json({ success: true, message: "Account Verified Successfully" });
-    } else {
-        res.json({ success: false, message: "Invalid OTP" });
-    }
+        res.json({ success: true, message: "Verified" });
+    } else { res.json({ success: false, message: "Invalid OTP" }); }
 });
 
 app.post('/login', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
-    if (user) {
-        if (req.body.password === user.password) {
-            if (!user.isVerified) return res.json({ success: false, errors: "Please verify your email" });
-            const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
-            res.json({ success: true, token });
-        } else {
-            res.json({ success: false, errors: "Wrong Password" });
-        }
-    } else {
-        res.json({ success: false, errors: "Wrong Email Id" });
-    }
+    if (user && req.body.password === user.password) {
+        if (!user.isVerified) return res.json({ success: false, errors: "Verify email first" });
+        const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
+        res.json({ success: true, token });
+    } else { res.json({ success: false, errors: "Wrong Credentials" }); }
 });
 
-// Start Server
+// --- Cart Logic (Preserved) ---
+app.post('/getcart', fetchUser, async (req, res) => {
+    let userData = await Users.findOne({_id: req.user.id});
+    res.json(userData.cartData);
+});
+
+app.post('/addtocart', fetchUser, async (req, res) => {
+    let userData = await Users.findOne({_id:req.user.id});
+    userData.cartData[req.body.itemId] += 1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.json({ success: true });
+});
+
+app.post('/removefromcart', fetchUser, async (req, res) => {
+    let userData = await Users.findOne({_id:req.user.id});
+    if(userData.cartData[req.body.itemId] > 0) userData.cartData[req.body.itemId] -= 1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.json({ success: true });
+});
+
+// --- Payment (Preserved Stripe Logic) ---
+app.post('/payment', fetchUser, async (req, res) => {
+    try {
+        const result = await paymentLogic(req.body.token, req.body.amount);
+        if (result.status === 'succeeded' || result.id) {
+            let cart = {}; for (let i = 0; i < 301; i++) { cart[i] = 0; }
+            await Users.findOneAndUpdate({_id:req.user.id}, {cartData: cart});
+            res.json({ success: true, paymentId: result.id });
+        }
+    } catch (err) { res.status(500).json({ success: false, message: err.message }); }
+});
+
+// Start Server on 0.0.0.0 for Koyeb
 app.listen(port, "0.0.0.0", (error) => {
     if (!error) console.log("Server Running on Port " + port);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const port = process.env.PORT || 8000;
-// const express = require("express");
-// const app = express();
-// const mongoose = require("mongoose");
-// const jwt = require("jsonwebtoken");
-// const multer = require("multer");
-// const path = require("path");
-// const cors = require("cors");
-// const nodemailer = require('nodemailer');
-
-// const paymentLogic = require('./payment');
-
-// app.use(express.json());
-// app.use(cors());
-
-// app.use('/images', express.static('upload/images'));
-
-
-// mongoose.connect("mongodb+srv://Hanzalo:Pakistan%40431@cluster0.scoor7b.mongodb.net/e-commerce")
-//     .then(() => console.log("DB Connected"))
-//     .catch((err) => console.log(err));
-
-// // --- Image Upload Logic for Admin ---
-// const storage = multer.diskStorage({
-//     destination: './upload/images',
-//     filename: (req, file, cb) => {
-//         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-//     }
-// });
-// const upload = multer({ storage: storage });
-
-// // app.post("/upload", upload.single('product'), (req, res) => {
-// //     res.json({
-// //         success: 1,
-// //         image_url: `http://localhost:${port}/images/${req.file.filename}`
-// //     });
-// // });
-
-
-
-// app.post("/upload", upload.single('product'), (req, res) => {
-//     res.json({
-//         success: 1,
-//         // Replace localhost with your actual Koyeb URL
-//         image_url: `https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/images/${req.file.filename}`
-//     });
-// });
-
-
-
-
-// // --- Schemas ---
-// const Product = mongoose.model("Product", {
-//     id: { type: Number, required: true },
-//     name: { type: String, required: true },
-//     image: { type: String, required: true },
-//     category: { type: String, required: true },
-//     new_price: { type: Number, required: true },
-//     old_price: { type: Number, required: true },
-//     date: { type: Date, default: Date.now },
-//     available: { type: Boolean, default: true },
-// });
-
-// // const Users = mongoose.model('Users', {
-// //     name: { type: String },
-// //     email: { type: String, unique: true },
-// //     password: { type: String },
-// //     cartData: { type: Object },
-// //     date: { type: Date, default: Date.now }
-// // });
-
-
-
-
-
-// const Users = mongoose.model('Users', {
-//     name: { type: String },
-//     email: { type: String, unique: true },
-//     password: { type: String },
-//     cartData: { type: Object },
-//     date: { type: Date, default: Date.now },
-//     isVerified: { type: Boolean, default: false }, // New field
-//     otp: { type: String } // To store the temporary code
-// });
-
-
-
-
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'your-email@gmail.com', 
-//         pass: 'your-app-password' // Get this from Google Account -> Security
-//     }
-// });
-
-
-
-
-
-
-// // --- Middleware ---
-// const fetchUser = async (req, res, next) => {
-//     const token = req.header('auth-token');
-//     if (!token) return res.status(401).send({ errors: "Please authenticate" });
-//     try {
-//         const data = jwt.verify(token, 'secret_ecom');
-//         req.user = data.user;
-//         next();
-//     } catch (error) { res.status(401).send({ errors: "Invalid token" }); }
-// };
-
-// // --- API Routes ---
-// app.post('/addproduct', async (req, res) => {
-//     let products = await Product.find({});
-//     let id = products.length > 0 ? products.slice(-1)[0].id + 1 : 1;
-//     const product = new Product({ ...req.body, id });
-//     await product.save();
-//     res.json({ success: true, name: req.body.name });
-// });
-
-
-
-
-
-
-
-// app.post('/removeproduct', async (req, res) => {
-//     try {
-//         // This finds the product by the 'id' sent from your frontend and deletes it
-//         await Product.findOneAndDelete({ id: req.body.id });
-//         console.log("Product Removed");
-//         res.json({
-//             success: true,
-//             name: req.body.name
-//         });
-//     } catch (error) {
-//         console.error("Error removing product:", error);
-//         res.status(500).json({ success: false, message: "Failed to remove product" });
-//     }
-// });
-
-
-
-
-
-
-
-// app.get('/allproducts', async (req, res) => {
-//     let products = await Product.find({});
-//     res.json(products);
-// });
-
-// app.get('/newcollections', async (req, res) => {
-//     let products = await Product.find({});
-//     res.json(products.slice(1).slice(-8));
-// });
-
-// app.get('/popularinwomen', async (req, res) => {
-//     let products = await Product.find({ category: "women" });
-//     res.json(products.slice(0, 4));
-// });
-
-// app.get('/relatedproducts/:id/:category', async (req, res) => {
-//     const { id, category } = req.params;
-//     let related = await Product.find({ category: category, id: { $ne: id } }).limit(4);
-//     res.json(related);
-// });
-
-// // Auth & Cart
-// // app.post('/signup', async (req, res) => {
-// //     let check = await Users.findOne({ email: req.body.email });
-// //     if (check) return res.status(400).json({ success: false, errors: "Existing User" });
-// //     let cart = {}; for (let i = 0; i < 301; i++) { cart[i] = 0; }
-// //     const user = new Users({ ...req.body, cartData: cart });
-// //     await user.save();
-// //     const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
-// //     res.json({ success: true, token });
-// // });
-
-
-
-
-
-
-
-
-// app.post('/signup', async (req, res) => {
-//     let check = await Users.findOne({ email: req.body.email });
-//     if (check) return res.status(400).json({ success: false, errors: "Existing user found" });
-
-//     const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate 6-digit OTP
-//     let cart = {};
-//     for (let i = 0; i < 300; i++) { cart[i] = 0; }
-
-//     const user = new Users({
-//         name: req.body.username,
-//         email: req.body.email,
-//         password: req.body.password,
-//         cartData: cart,
-//         otp: otp
-//     });
-
-//     await user.save();
-
-//     // Send the Email
-//     const mailOptions = {
-//         from: 'your-email@gmail.com',
-//         to: user.email,
-//         subject: 'Verify your E-commerce Account',
-//         text: `Your verification code is: ${otp}`
-//     };
-
-//     const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: process.env.EMAIL_USER, 
-//         pass: process.env.EMAIL_PASS 
-//     }
-// });
-// });
-
-
-
-
-
-
-// app.post('/verify-otp', async (req, res) => {
-//     let user = await Users.findOne({ email: req.body.email });
-//     if (user && user.otp === req.body.otp) {
-//         await Users.findOneAndUpdate({ email: req.body.email }, { isVerified: true, otp: "" });
-//         res.json({ success: true, message: "Account Verified Successfully" });
-//     } else {
-//         res.json({ success: false, message: "Invalid OTP" });
-//     }
-// });
-
-
-
-
-
-
-
-// // app.post('/login', async (req, res) => {
-// //     let user = await Users.findOne({ email: req.body.email });
-// //     if (user && req.body.password === user.password) {
-// //         const token = jwt.sign({ user: { id: user.id } }, 'secret_ecom');
-// //         res.json({ success: true, token });
-// //     } else { res.json({ success: false, errors: "Wrong Credentials" }); }
-// // });
-
-
-
-
-
-
-// app.post('/login', async (req, res) => {
-//     let user = await Users.findOne({ email: req.body.email });
-//     if (user) {
-//         const passCompare = req.body.password === user.password;
-//         if (passCompare) {
-//             // Check if verified
-//             if (!user.isVerified) {
-//                 return res.json({ success: false, errors: "Please verify your email first" });
-//             }
-//             // If verified, proceed with JWT token
-//             const data = { user: { id: user.id } };
-//             const token = jwt.sign(data, 'secret_ecom');
-//             res.json({ success: true, token });
-//         } else {
-//             res.json({ success: false, errors: "Wrong Password" });
-//         }
-//     } else {
-//         res.json({ success: false, errors: "Wrong Email Id" });
-//     }
-// });
-
-
-
-
-
-// app.post('/getcart', fetchUser, async (req, res) => {
-//     let userData = await Users.findOne({_id: req.user.id});
-//     res.json(userData.cartData);
-// });
-
-// app.post('/addtocart', fetchUser, async (req, res) => {
-//     let userData = await Users.findOne({_id:req.user.id});
-//     userData.cartData[req.body.itemId] += 1;
-//     await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-//     res.json({ success: true });
-// });
-
-// app.post('/removefromcart', fetchUser, async (req, res) => {
-//     let userData = await Users.findOne({_id:req.user.id});
-//     if(userData.cartData[req.body.itemId] > 0) userData.cartData[req.body.itemId] -= 1;
-//     await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-//     res.json({ success: true });
-// });
-
-// app.post('/payment', fetchUser, async (req, res) => {
-//     try {
-//         const result = await paymentLogic(req.body.token, req.body.amount);
-//         if (result.status === 'succeeded' || result.id) {
-//             let cart = {}; for (let i = 0; i < 301; i++) { cart[i] = 0; }
-//             await Users.findOneAndUpdate({_id:req.user.id}, {cartData: cart});
-//             res.json({ success: true, paymentId: result.id });
-//         }
-//     } catch (err) { res.status(500).json({ success: false, message: err.message }); }
-// });
-
-// // app.listen(port, (error) => { if (!error) console.log("Server Running on Port " + port); });
-// app.listen(port, "0.0.0.0", (error) => {
-//     if (!error) {
-//         console.log("Server Running on Port " + port);
-//     } else {
-//         console.log("Error: " + error);
-//     }
-// });
-
-// have lock on complete file 
