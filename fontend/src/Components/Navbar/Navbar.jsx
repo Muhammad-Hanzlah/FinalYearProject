@@ -45,12 +45,6 @@
 
 
 
-
-
-
-
-
-
 import { memo, useContext, useRef, useState } from 'react';
 import './Navbar.css';
 import logo from '../Assets/logo.png';
@@ -70,7 +64,7 @@ const Navbar = () => {
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(`/search/${searchTerm}`);
-      // Close menu after search on mobile
+      // Close menu automatically after searching
       menRef.current.classList.remove('nav-manue-visible');
     }
   };
@@ -89,10 +83,10 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <img className='nav-dropdown-icon' onClick={dropdown_toggle} src={nav_dropdown} alt="" />
+      <img className='nav-dropdown-icon' onClick={dropdown_toggle} src={nav_dropdown} alt="menu" />
       
       <ul ref={menRef} className='nav-menu'>
-        {/* Search Bar placed at the top of the menu list */}
+        {/* ROW 1: Search Bar (Full width in toggle) */}
         <li className="nav-search-wrapper">
           <div className="nav-search-container">
             <input 
@@ -106,22 +100,25 @@ const Navbar = () => {
           </div>
         </li>
 
-        <li onClick={() => { setMenu("shop") }}>
-          <Link to="/" style={{ textDecoration: 'none' }}>Shop</Link>
-          {menu === "shop" ? <hr /> : <></>}
-        </li>
-        <li onClick={() => { setMenu("mens") }}>
-          <Link to="/mens" style={{ textDecoration: 'none' }}>Men</Link>
-          {menu === "mens" ? <hr /> : <></>}
-        </li>
-        <li onClick={() => { setMenu("womens") }}>
-          <Link to="/womens" style={{ textDecoration: 'none' }}>Women</Link>
-          {menu === "womens" ? <hr /> : <></>}
-        </li>
-        <li onClick={() => { setMenu("kids") }}>
-          <Link to="/kids" style={{ textDecoration: 'none' }}>Kids</Link>
-          {menu === "kids" ? <hr /> : <></>}
-        </li>
+        {/* ROW 2: Horizontal Categories */}
+        <div className="nav-categories-horizontal">
+          <li onClick={() => { setMenu("shop") }}>
+            <Link to="/" style={{ textDecoration: 'none' }}>Shop</Link>
+            {menu === "shop" ? <hr /> : <></>}
+          </li>
+          <li onClick={() => { setMenu("mens") }}>
+            <Link to="/mens" style={{ textDecoration: 'none' }}>Men</Link>
+            {menu === "mens" ? <hr /> : <></>}
+          </li>
+          <li onClick={() => { setMenu("womens") }}>
+            <Link to="/womens" style={{ textDecoration: 'none' }}>Women</Link>
+            {menu === "womens" ? <hr /> : <></>}
+          </li>
+          <li onClick={() => { setMenu("kids") }}>
+            <Link to="/kids" style={{ textDecoration: 'none' }}>Kids</Link>
+            {menu === "kids" ? <hr /> : <></>}
+          </li>
+        </div>
       </ul>
 
       <div className="nav-login-cart">

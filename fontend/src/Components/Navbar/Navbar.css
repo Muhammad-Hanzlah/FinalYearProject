@@ -85,7 +85,6 @@
 
 
 
-
 /* ===== RESET ===== */
 * {
   margin: 0;
@@ -107,17 +106,13 @@
   width: 100%;
 }
 
-/* ===== LOGO ===== */
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.nav-logo img {
-  width: 40px;
-}
-
+.nav-logo img { width: 40px; }
 .nav-logo p {
   font-size: 24px;
   font-weight: 700;
@@ -133,9 +128,16 @@
   list-style: none;
 }
 
+.nav-categories-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
 .nav-menu li {
   position: relative;
   cursor: pointer;
+  list-style: none;
 }
 
 .nav-menu li a {
@@ -146,9 +148,7 @@
   transition: 0.3s;
 }
 
-.nav-menu li a:hover {
-  color: #ff4141;
-}
+.nav-menu li a:hover { color: #ff4141; }
 
 .nav-menu hr {
   width: 100%;
@@ -162,11 +162,6 @@
 }
 
 /* ===== SEARCH BAR STYLING ===== */
-.nav-search-wrapper {
-  display: flex;
-  align-items: center;
-}
-
 .nav-search-container {
   display: flex;
   align-items: center;
@@ -203,10 +198,6 @@
   gap: 25px;
 }
 
-.nav-login-cart a {
-  text-decoration: none !important;
-}
-
 .nav-login-cart button {
   padding: 8px 20px;
   border-radius: 20px;
@@ -216,14 +207,10 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255, 65, 65, 0.2);
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
-.nav-login-cart img {
-  width: 28px;
-  cursor: pointer;
-}
+.nav-login-cart img { width: 28px; cursor: pointer; }
 
 .nav-cart-count {
   width: 20px;
@@ -241,7 +228,6 @@
   border: 1.5px solid white;
 }
 
-/* Hide toggle icon on desktop */
 .nav-dropdown-icon {
   display: none;
   width: 28px;
@@ -253,86 +239,64 @@
    ========================================================= */
 
 @media (max-width: 1200px) {
-  .Navbar {
-    padding: 15px 5%; 
-  }
+  .Navbar { padding: 15px 5%; }
 }
 
-@media (max-width: 900px) {
-  .nav-search-container input {
-    width: 120px;
-  }
-}
+@media (max-width: 850px) {
+  .Navbar { padding: 12px 20px; }
+  .nav-dropdown-icon { display: block; }
 
-@media (max-width: 750px) {
-  .Navbar {
-    padding: 12px 20px; 
-  }
-
-  .nav-dropdown-icon {
-    display: block;
-  }
-
-  /* TOGGLE MENU STYLING */
+  /* TOGGLE MENU */
   .nav-menu {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     
-    /* Stack Search above links */
+    /* Search on Row 1, Categories on Row 2 */
     flex-direction: column; 
-    justify-content: center;
     gap: 20px;
-    padding: 25px 0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-
-    transform: translateY(-10px);
-    opacity: 0;
+    padding: 20px 0;
+    
     visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 0.4s ease;
   }
 
   .nav-manue-visible {
-    transform: translateY(0);
-    opacity: 1;
     visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* Search bar specifically inside the toggle */
+  /* Search Row */
   .nav-search-wrapper {
     width: 100%;
+    display: flex;
     justify-content: center;
-    margin-bottom: 10px;
   }
 
-  .nav-search-container {
-    width: 70%; /* Covers center of screen in toggle */
-  }
+  .nav-search-container { width: 80%; }
+  .nav-search-container input { width: 100%; }
 
-  .nav-search-container input {
+  /* Categories Row - KEEPS THEM HORIZONTAL */
+  .nav-categories-horizontal {
+    display: flex;
+    flex-direction: row; 
+    justify-content: center;
+    gap: 20px;
     width: 100%;
   }
 
-  .nav-menu li a {
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .nav-login-cart button {
-    padding: 6px 15px;
-    font-size: 12px;
-  }
+  .nav-menu li a { font-size: 15px; font-weight: 600; }
 }
 
-@media (max-width: 380px) {
-  .nav-logo p {
-    display: none;
-  }
-  .nav-search-container {
-    width: 90%;
-  }
+@media (max-width: 480px) {
+  .nav-categories-horizontal { gap: 10px; }
+  .nav-menu li a { font-size: 13px; }
+  .nav-logo p { display: none; }
 }
