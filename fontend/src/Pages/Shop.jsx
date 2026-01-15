@@ -8,6 +8,7 @@ const Shop = () => {
   return (
     <div>
         <Hero/>
+        <Recommendations />
         <Popular/>
         <Offers />
         <NewCollections />

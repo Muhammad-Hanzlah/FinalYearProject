@@ -737,15 +737,37 @@ const Product = mongoose.model("Product", {
     available: { type: Boolean, default: true },
 });
 
+
+
+
+
+
 const Users = mongoose.model('Users', {
     name: { type: String },
     email: { type: String, unique: true },
     password: { type: String },
     cartData: { type: Object },
+    // ADD THIS LINE BELOW
+    interests: { type: [String], default: [] }, 
     date: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: false },
     otp: { type: String }
 });
+
+
+
+
+
+
+// const Users = mongoose.model('Users', {
+//     name: { type: String },
+//     email: { type: String, unique: true },
+//     password: { type: String },
+//     cartData: { type: Object },
+//     date: { type: Date, default: Date.now },
+//     isVerified: { type: Boolean, default: false },
+//     otp: { type: String }
+// });
 
 // --- Middleware ---
 const fetchUser = async (req, res, next) => {
@@ -1015,6 +1037,61 @@ app.post("/chatbot", async (req, res) => {
     }
 });
 // --- END OF CHATBOT CODE ---
+
+
+
+
+
+
+
+// 1. Route to Record User Interests
+app.post('/update-interests', fetchUser, async (req, res) => {
+    try {
+        const { category } = req.body;
+        // Add the category to the user's interest list if it's not already there
+        await Users.findByIdAndUpdate(req.user.id, {
+            $addToSet: { interests: category } 
+        });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false });
+    }
+});
+
+// 2. Route to Get Personalized Recommendations
+app.get('/recommendations', fetchUser, async (req, res) => {
+    try {
+        let user = await Users.findOne({ _id: req.user.id });
+        let products;
+
+        if (user && user.interests && user.interests.length > 0) {
+            // Find products matching the categories the user likes
+            products = await Product.find({ 
+                category: { $in: user.interests },
+                available: true 
+            }).limit(4);
+        } 
+
+        // Fallback: If no interests yet, show the newest items
+        if (!products || products.length === 0) {
+            products = await Product.find({ available: true }).sort({ date: -1 }).limit(4);
+        }
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).send("Error");
+    }
+});
+
+
+
+
+
+
+
+
+
+
 // Your existing app.listen should be the very last thing
 app.listen(port, (error) => {
     if (!error) {
