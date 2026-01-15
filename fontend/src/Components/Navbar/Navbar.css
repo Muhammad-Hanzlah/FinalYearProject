@@ -227,6 +227,37 @@
   cursor: pointer;
 }
 
+
+
+
+.nav-search-container {
+    display: flex;
+    align-items: center;
+    background: #eaeaea;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin-left: 20px;
+}
+
+.nav-search-container input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    width: 150px;
+}
+
+.nav-search-container button {
+    border: none;
+    background: #ff4141;
+    color: white;
+    border-radius: 15px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
 /* =========================================================
    RESPONSIVE LOGIC
    ========================================================= */
