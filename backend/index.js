@@ -767,6 +767,15 @@ app.post('/addproduct', async (req, res) => {
     await product.save();
     res.json({ success: true, name: req.body.name });
 });
+// Make sure this matches exactly: /removeproduct
+app.post('/removeproduct', async (req, res) => {
+    await Product.findOneAndDelete({ id: req.body.id });
+    console.log("Removed");
+    res.json({
+        success: true,
+        name: req.body.name
+    });
+});
 
 app.get('/allproducts', async (req, res) => {
     let products = await Product.find({});
