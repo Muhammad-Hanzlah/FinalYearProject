@@ -684,8 +684,6 @@
 
 
 
-
-
 require('dotenv').config(); 
 const port = process.env.PORT || 8000;
 const express = require("express");
@@ -697,21 +695,17 @@ const path = require("path");
 const cors = require("cors");
 const nodemailer = require('nodemailer');
 
-// Import Stripe Logic (Restored)
 const paymentLogic = require('./payment');
 
 app.use(express.json());
 app.use(cors());
-
-// Serve images statically (Restored)
 app.use('/images', express.static('upload/images'));
 
-// MongoDB Connection
 mongoose.connect("mongodb+srv://Hanzalo:Pakistan%40431@cluster0.scoor7b.mongodb.net/e-commerce")
     .then(() => console.log("DB Connected"))
-    .catch((err) => console.log("DB Connection Error:", err));
+    .catch((err) => console.log(err));
 
-// --- Image Upload Logic for Admin (Restored) ---
+// --- Image Upload Logic ---
 const storage = multer.diskStorage({
     destination: './upload/images',
     filename: (req, file, cb) => {
@@ -723,12 +717,11 @@ const upload = multer({ storage: storage });
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        // Using live Koyeb URL for production visibility
         image_url: `https://fluttering-christiana-muhammadhanzalah-eb04cdbe.koyeb.app/images/${req.file.filename}`
     });
 });
 
-// --- Schemas (Fully Restored) ---
+// --- Schemas ---
 const Product = mongoose.model("Product", {
     id: { type: Number, required: true },
     name: { type: String, required: true },
@@ -747,10 +740,10 @@ const Users = mongoose.model('Users', {
     cartData: { type: Object },
     date: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: false },
-    otp: { type: String } 
+    otp: { type: String }
 });
 
-// --- Middleware (Restored) ---
+// --- Middleware ---
 const fetchUser = async (req, res, next) => {
     const token = req.header('auth-token');
     if (!token) return res.status(401).send({ errors: "Please authenticate" });
@@ -761,23 +754,13 @@ const fetchUser = async (req, res, next) => {
     } catch (error) { res.status(401).send({ errors: "Invalid token" }); }
 };
 
-// --- API Routes (EVERY Original Route Restored) ---
-
+// --- API Routes ---
 app.post('/addproduct', async (req, res) => {
     let products = await Product.find({});
     let id = products.length > 0 ? products.slice(-1)[0].id + 1 : 1;
     const product = new Product({ ...req.body, id });
     await product.save();
     res.json({ success: true, name: req.body.name });
-});
-
-app.post('/removeproduct', async (req, res) => {
-    try {
-        await Product.findOneAndDelete({ id: req.body.id });
-        res.json({ success: true, name: req.body.name });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to remove product" });
-    }
 });
 
 app.get('/allproducts', async (req, res) => {
@@ -787,69 +770,39 @@ app.get('/allproducts', async (req, res) => {
 
 app.get('/newcollections', async (req, res) => {
     let products = await Product.find({});
-    let newcollection = products.slice(1).slice(-8); 
-    res.json(newcollection);
+    res.json(products.slice(1).slice(-8));
 });
 
 app.get('/popularinwomen', async (req, res) => {
     let products = await Product.find({ category: "women" });
-    let popular_in_women = products.slice(0, 4); 
-    res.json(popular_in_women);
+    res.json(products.slice(0, 4));
 });
 
-app.get('/relatedproducts/:id/:category', async (req, res) => {
-    const { id, category } = req.params;
-    let related = await Product.find({ category: category, id: { $ne: id } }).limit(4);
-    res.json(related);
-});
-
-// --- Auth Routes (Signup with verification check) ---
+// --- AUTH ROUTES ---
 app.post('/signup', async (req, res) => {
     try {
         let user = await Users.findOne({ email: req.body.email });
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // If user exists but is NOT verified, update their OTP and send email
-        if (user) {
-            if (!user.isVerified) {
-                user.otp = otp;
-                await user.save();
-                
-                // Reuse email sending logic
-                const mailOptions = {
-                    from: process.env.EMAIL_USER,
-                    to: user.email,
-                    subject: 'Verify your Account (New Code)',
-                    text: `Your new verification code is: ${otp}`
-                };
-
-                const transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-                });
-
-                transporter.sendMail(mailOptions, (error) => {
-                    if (error) return res.json({ success: false, message: "Email failed" });
-                    return res.json({ success: true, message: "New OTP sent to email" });
-                });
-                return; // Stop here for existing unverified user
-            } else {
-                return res.status(400).json({ success: false, errors: "Existing verified user found" });
-            }
+        if (user && !user.isVerified) {
+            user.otp = otp;
+            await user.save();
+        } 
+        else if (user && user.isVerified) {
+            return res.status(400).json({ success: false, errors: "Existing verified user found" });
+        } 
+        else {
+            let cart = {};
+            for (let i = 0; i < 301; i++) { cart[i] = 0; }
+            user = new Users({
+                name: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+                cartData: cart,
+                otp: otp
+            });
+            await user.save();
         }
-
-        // Logic for completely NEW user
-        let cart = {};
-        for (let i = 0; i < 301; i++) { cart[i] = 0; }
-
-        const newUser = new Users({
-            name: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-            cartData: cart,
-            otp: otp
-        });
-        await newUser.save();
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -858,66 +811,25 @@ app.post('/signup', async (req, res) => {
 
         transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: newUser.email,
-            subject: 'Verify your Account',
-            text: `Your code: ${otp}`
+            to: user.email,
+            subject: 'Verify your E-commerce Account',
+            text: `Your verification code is: ${otp}`
         }, (error) => {
             if (error) return res.json({ success: false, message: "Email failed" });
             res.json({ success: true, message: "OTP sent to email" });
         });
 
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Server Error" });
-    }
+    } catch (error) { res.status(500).json({ success: false }); }
 });
-
-
-
-
-
-// app.post('/signup', async (req, res) => {
-//     try {
-//         let check = await Users.findOne({ email: req.body.email });
-//         if (check) return res.status(400).json({ success: false, errors: "Existing user found" });
-
-//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-//         let cart = {};
-//         for (let i = 0; i < 301; i++) { cart[i] = 0; }
-
-//         const user = new Users({
-//             name: req.body.username,
-//             email: req.body.email,
-//             password: req.body.password,
-//             cartData: cart,
-//             otp: otp
-//         });
-//         await user.save();
-
-//         const transporter = nodemailer.createTransport({
-//             service: 'gmail',
-//             auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-//         });
-
-//         const mailOptions = {
-//             from: process.env.EMAIL_USER,
-//             to: user.email,
-//             subject: 'Verify your E-commerce Account',
-//             text: `Your verification code is: ${otp}`
-//         };
-
-//         transporter.sendMail(mailOptions, (error) => {
-//             if (error) return res.json({ success: false, message: "Email error", error: error.message });
-//             res.json({ success: true, message: "OTP sent to email" });
-//         });
-//     } catch (error) { res.status(500).json({ success: false }); }
-// });
 
 app.post('/verify-otp', async (req, res) => {
     let user = await Users.findOne({ email: req.body.email });
     if (user && user.otp === req.body.otp) {
         await Users.findOneAndUpdate({ email: req.body.email }, { isVerified: true, otp: "" });
         res.json({ success: true, message: "Account Verified Successfully" });
-    } else { res.json({ success: false, message: "Invalid OTP" }); }
+    } else {
+        res.json({ success: false, message: "Invalid OTP" });
+    }
 });
 
 app.post('/login', async (req, res) => {
@@ -929,27 +841,55 @@ app.post('/login', async (req, res) => {
     } else { res.json({ success: false, errors: "Wrong Credentials" }); }
 });
 
-// --- Cart Logic (Restored) ---
+// --- FORGOT PASSWORD ROUTES ---
+app.post('/forgot-password', async (req, res) => {
+    try {
+        const user = await Users.findOne({ email: req.body.email });
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        user.otp = otp;
+        await user.save();
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+        });
+
+        transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'Password Reset OTP',
+            text: `Your password reset code is: ${otp}`
+        }, (error) => {
+            if (error) return res.json({ success: false, message: "Email failed" });
+            res.json({ success: true, message: "Reset OTP sent to email" });
+        });
+    } catch (error) { res.status(500).json({ success: false }); }
+});
+
+app.post('/reset-password', async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+        const user = await Users.findOne({ email });
+
+        if (user && user.otp === otp) {
+            user.password = newPassword;
+            user.otp = ""; // Clear OTP after success
+            await user.save();
+            res.json({ success: true, message: "Password updated successfully" });
+        } else {
+            res.json({ success: false, message: "Invalid OTP" });
+        }
+    } catch (error) { res.status(500).json({ success: false }); }
+});
+
+// --- Cart & Payment ---
 app.post('/getcart', fetchUser, async (req, res) => {
     let userData = await Users.findOne({_id: req.user.id});
     res.json(userData.cartData);
 });
 
-app.post('/addtocart', fetchUser, async (req, res) => {
-    let userData = await Users.findOne({_id:req.user.id});
-    userData.cartData[req.body.itemId] += 1;
-    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-    res.json({ success: true });
-});
-
-app.post('/removefromcart', fetchUser, async (req, res) => {
-    let userData = await Users.findOne({_id:req.user.id});
-    if(userData.cartData[req.body.itemId] > 0) userData.cartData[req.body.itemId] -= 1;
-    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-    res.json({ success: true });
-});
-
-// --- Payment (Restored Stripe Logic) ---
 app.post('/payment', fetchUser, async (req, res) => {
     try {
         const result = await paymentLogic(req.body.token, req.body.amount);
@@ -961,7 +901,6 @@ app.post('/payment', fetchUser, async (req, res) => {
     } catch (err) { res.status(500).json({ success: false, message: err.message }); }
 });
 
-// Start Server (Cloud-ready)
 app.listen(port, "0.0.0.0", (error) => {
     if (!error) console.log("Server Running on Port " + port);
 });

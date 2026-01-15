@@ -234,6 +234,27 @@
     align-items: center;
 }
 
+
+
+.forgot-link {
+    margin-top: 10px;
+    color: #ff4141;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: right;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.login-options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 /* =========================================
    RESPONSIVENESS (The Final Fix)
    ========================================= */
