@@ -475,14 +475,13 @@ app.post('/google-login', async (req, res) => {
             // 3. Create new user if they don't exist
             user = new Users({
                 name: name,
-                email: email,
-                image: picture, // Optional: save their profile pic
-                password: Math.random().toString(36).slice(-10), // Secure placeholder
-                isVarified: true,
-                // cartData: {}, // Change Array(301) to Object {} to match OTP user
-                cartData: cart, // Initialize cart if needed
-                otp: "", // Give them an empty OTP string like the OTP user
-                interests: {}, 
+        email: email,
+        // Match the OTP user format exactly
+        password: Math.random().toString(36).slice(-8), 
+        cartData: {}, // Change Array(301) to Object {} to match OTP user
+        isVerified: true, // Set this to true so they don't get stuck
+        otp: "", // Give them an empty OTP string like the OTP user
+        interests: {},
             });
             await user.save();
         }
