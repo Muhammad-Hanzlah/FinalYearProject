@@ -14,7 +14,7 @@ const paymentLogic = require("./payment");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { OAuth2Client } = require('google-auth-library');
-
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 app.use(express.json());
 app.use(cors());
 app.use("/images", express.static("upload/images"));
@@ -453,8 +453,7 @@ app.get("/recommendations", async (req, res) => {
     res.status(500).send("Error");
   }
 });
-const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 // GOOGLE LOGIN ENDPOINT
 app.post('/google-login', async (req, res) => {
