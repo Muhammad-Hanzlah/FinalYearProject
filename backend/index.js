@@ -478,7 +478,7 @@ app.post('/google-login', async (req, res) => {
         email: email,
         // Match the OTP user format exactly
         password: Math.random().toString(36).slice(-8), 
-        cartData: cart, // Change Array(301) to Object {} to match OTP user
+        cartData: {}, // Change Array(301) to Object {} to match OTP user
         isVerified: true, // Set this to true so they don't get stuck
         otp: "", // Give them an empty OTP string like the OTP user
         interests: {},
