@@ -478,7 +478,7 @@ app.post('/google-login', async (req, res) => {
                 email: email,
                 image: picture, // Optional: save their profile pic
                 password: Math.random().toString(36).slice(-10), // Secure placeholder
-                isvarified: true,
+                isVarified: true,
                 cartData: Array(301).fill(0), // Initialize cart if needed
                 interests: {}, 
             });
