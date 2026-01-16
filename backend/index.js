@@ -1006,7 +1006,6 @@ app.post("/chatbot", async (req, res) => {
         const { message } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
 
-        // --- CUSTOMIZE YOUR STORE DETAILS HERE ---
         const storeInfo = {
             name: "Hanzala's Fashion Store",
             shipping: "Free shipping on orders over $50. Otherwise, it's $5 flat rate.",
@@ -1026,7 +1025,7 @@ app.post("/chatbot", async (req, res) => {
         7. Keep all responses friendly and under 3 sentences.`;
 
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -1039,8 +1038,16 @@ app.post("/chatbot", async (req, res) => {
         );
 
         const data = await response.json();
-        const replyText = data.candidates[0].content.parts[0].text;
-        res.json({ success: true, reply: replyText });
+
+        // --- THE FIX: Safety Guards ---
+        if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const replyText = data.candidates[0].content.parts[0].text;
+            res.json({ success: true, reply: replyText });
+        } else {
+            // Handle cases where AI is blocked or empty
+            console.error("AI blocked response or returned empty:", data);
+            res.json({ success: true, reply: "I'm sorry, I can only assist with store-related questions. How can I help with your shopping today?" });
+        }
 
     } catch (error) {
         console.error("Chatbot Error:", error.message);
