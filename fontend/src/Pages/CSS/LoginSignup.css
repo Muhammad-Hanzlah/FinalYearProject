@@ -156,6 +156,33 @@
   flex-direction: column;
   gap: 5px;
 }
+.google-auth-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+
+.divider span {
+  background: #fff;
+  padding: 0 10px;
+  color: #777;
+  font-size: 14px;
+}
+
+.google-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 /* =========================================
    RESPONSIVENESS (The Final Fix)

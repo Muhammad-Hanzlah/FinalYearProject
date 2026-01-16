@@ -9,9 +9,11 @@ const path = require("path");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 
+
 const paymentLogic = require("./payment");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { OAuth2Client } = require('google-auth-library');
 
 app.use(express.json());
 app.use(cors());
@@ -451,7 +453,48 @@ app.get("/recommendations", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+// GOOGLE LOGIN ENDPOINT
+app.post('/google-login', async (req, res) => {
+    try {
+        const { token } = req.body;
+        
+        // 1. Verify the Google ID Token
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        
+        const { email, name, picture } = ticket.getPayload();
+
+        // 2. Check if user already exists in MongoDB
+        let user = await Users.findOne({ email: email });
+
+        if (!user) {
+            // 3. Create new user if they don't exist
+            user = new Users({
+                name: name,
+                email: email,
+                image: picture, // Optional: save their profile pic
+                password: Math.random().toString(36).slice(-10), // Secure placeholder
+                cartData: Array(301).fill(0), // Initialize cart if needed
+                interests: {}, 
+            });
+            await user.save();
+        }
+
+        // 4. Generate your App's JWT Token for the session
+        const data = { user: { id: user.id } };
+        const authToken = jwt.sign(data, 'secret_ecom');
+        
+        res.json({ success: true, token: authToken });
+    } catch (error) {
+        console.error("Google Verification Error:", error);
+        res.status(400).json({ success: false, message: "Invalid Google Token" });
+    }
+});
 // Your existing app.listen should be the very last thing
 app.listen(port, (error) => {
   if (!error) {
