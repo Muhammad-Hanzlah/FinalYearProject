@@ -479,7 +479,9 @@ app.post('/google-login', async (req, res) => {
                 image: picture, // Optional: save their profile pic
                 password: Math.random().toString(36).slice(-10), // Secure placeholder
                 isVarified: true,
-                cartData: Array(301).fill(0), // Initialize cart if needed
+                // cartData: {}, // Change Array(301) to Object {} to match OTP user
+                cartData: cart, // Initialize cart if needed
+                otp: "", // Give them an empty OTP string like the OTP user
                 interests: {}, 
             });
             await user.save();
