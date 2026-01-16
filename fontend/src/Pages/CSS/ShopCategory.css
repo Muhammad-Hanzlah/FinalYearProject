@@ -1,185 +1,130 @@
-/* .shopcategory-banner{
-    display: block;
-    margin: 30px auto;
-    width: 82%;
-    justify-content: center;
-}
-.shopcategory-indexSort{
-    margin: 0px 170px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.shopcategory-sort{
-    padding: 10px 20px;
-    border-radius: 40px;
-    border: 1px solid #888;
-}
-.shopcategory-indexSort p span{
-    font-weight: 600;
-}
-.shopcategory-products{
-    margin: 20px 170px;
-    justify-content: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    column-gap: 30px;
-    row-gap: 80px;
-}
-.shopcategory-loadmore{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 150px auto;
-    width: 233px;
-    height: 69px;
-    border-radius: 75px;
-    background: #ededed;
-    color: #787878;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
- */
-
-
-
-
-
-
-
-
-
-
-
 /* --- 1. Fonts & Global Styling --- */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap");
 
 .shop-category {
-    font-family: 'Poppins', sans-serif;
-    background-color: #fdfbf7;
-    min-height: 100vh;
-    padding-bottom: 80px; 
-    
-    /* Desktop Navbar Clearance */
-    padding-top: 100px; 
+  font-family: "Poppins", sans-serif;
+  background-color: #fdfbf7;
+  min-height: 100vh;
+  padding-bottom: 80px;
+
+  /* Desktop Navbar Clearance */
+  padding-top: 100px;
 }
 
 /* --- 2. The Banner --- */
 .shopcategory-banner {
-    display: block;
-    margin: 0 auto 30px; 
-    width: 82%; 
-    max-width: 1200px;
-    border-radius: 8px; 
-    object-fit: cover; 
+  display: block;
+  margin: 0 auto 30px;
+  width: 82%;
+  max-width: 1200px;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 /* --- 3. Index & Sort Bar --- */
 .shopcategory-indexSort {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin: 0 auto 20px;
-    width: 82%; 
-    max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto 20px;
+  width: 82%;
+  max-width: 1200px;
 }
 
 .shopcategory-indexSort p {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
 }
 
 .shopcategory-indexSort p span {
-    font-weight: 600;
-    color: #000;
+  font-weight: 600;
+  color: #000;
 }
 
 .shopcategory-sort {
-    padding: 10px 20px;
-    border-radius: 40px;
-    border: 1px solid #888;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 1px solid #888;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .shopcategory-sort:hover {
-    background-color: #000;
-    color: white;
-    border-color: #000;
+  background-color: #000;
+  color: white;
+  border-color: #000;
 }
 
 .shopcategory-sort img {
-    height: 10px; 
-    width: auto;
+  height: 10px;
+  width: auto;
 }
 
 /* --- 4. Products Container (THE 4-3-2-1 FIX) --- */
 .shopcategory-products {
-    margin: 20px auto;
-    width: 90%; 
-    max-width: 1250px;
-    display: flex;
-    flex-wrap: wrap;       /* Allows items to wrap to next line */
-    justify-content: center; /* Keeps remaining items centered */
-    gap: 30px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1250px;
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to next line */
+  justify-content: center; /* Keeps remaining items centered */
+  gap: 30px;
 }
 
 /* --- 5. Product Cards --- */
 .shopcategory-products > div {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
-    transition: transform 0.3s ease;
-    
-    /* This logic allows 4 -> 3 -> 2 -> 1 naturally */
-    /* It tries to be 240px. If 3 can fit, it shows 3. If 2 can fit, it shows 2. */
-    flex: 1 1 240px; 
-    max-width: 280px; 
-    
-    padding: 15px; 
-    box-sizing: border-box;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+
+  /* This logic allows 4 -> 3 -> 2 -> 1 naturally */
+  /* It tries to be 240px. If 3 can fit, it shows 3. If 2 can fit, it shows 2. */
+  flex: 1 1 240px;
+  max-width: 280px;
+
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .shopcategory-products > div:hover {
-    transform: translateY(-5px); 
+  transform: translateY(-5px);
 }
 
 .shopcategory-products img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
 }
 
 /* --- 6. Explore More Button --- */
 .shopcategory-loadmore {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 50px auto; 
-    width: 200px;
-    height: 50px;
-    border-radius: 75px; 
-    background: #ededed; 
-    color: #787878;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+  width: 200px;
+  height: 50px;
+  border-radius: 75px;
+  background: #ededed;
+  color: #787878;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .shopcategory-loadmore:hover {
-    background: #ff4141; 
-    color: white;
-    transform: scale(1.05);
+  background: #ff4141;
+  color: white;
+  transform: scale(1.05);
 }
 
 /* =========================================================
@@ -187,68 +132,68 @@
    ========================================================= */
 
 @media (max-width: 1024px) {
-    .shop-category {
-        padding-top: 80px;
-    }
+  .shop-category {
+    padding-top: 80px;
+  }
 }
 
 @media (max-width: 700px) {
-    .shopcategory-products {
-        gap: 20px; /* Tighter gaps to help 2-3 items fit */
-    }
-    
-    .shopcategory-products > div {
-        /* Allow items to get slightly smaller to stay 2-per-row longer */
-        flex: 1 1 200px; 
-    }
+  .shopcategory-products {
+    gap: 20px; /* Tighter gaps to help 2-3 items fit */
+  }
+
+  .shopcategory-products > div {
+    /* Allow items to get slightly smaller to stay 2-per-row longer */
+    flex: 1 1 200px;
+  }
 }
 
 @media (max-width: 585px) {
-    .shopcategory-banner {
-        width: 95%; 
-        margin: 0 auto 20px; 
-    }
+  .shopcategory-banner {
+    width: 95%;
+    margin: 0 auto 20px;
+  }
 
-    .shopcategory-indexSort {
-        width: 90%;
-        margin-bottom: 20px;
-    }
-    
-    .shopcategory-indexSort p {
-        font-size: 12px; 
-    }
+  .shopcategory-indexSort {
+    width: 90%;
+    margin-bottom: 20px;
+  }
 
-    .shopcategory-sort {
-        padding: 6px 15px; 
-        font-size: 12px;
-    }
-    
-    .shopcategory-loadmore {
-        width: 150px;
-        height: 45px;
-        font-size: 14px;
-    }
+  .shopcategory-indexSort p {
+    font-size: 12px;
+  }
+
+  .shopcategory-sort {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
+
+  .shopcategory-loadmore {
+    width: 150px;
+    height: 45px;
+    font-size: 14px;
+  }
 }
 
 /* =========================================================
    [MOBILE FIX] Screens < 400px
    ========================================================= */
 @media (max-width: 400px) {
-    .shop-category {
-        padding-top: 30px; 
-    }
+  .shop-category {
+    padding-top: 30px;
+  }
 
-    .shopcategory-indexSort {
-        flex-direction: column; 
-        gap: 10px;
-        align-items: flex-start;
-    }
+  .shopcategory-indexSort {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
 
-    /* On very small phones, 2 atoms often look too squashed, 
+  /* On very small phones, 2 atoms often look too squashed, 
        but if you want 2, this basis allows it. If it's too tight, 
        it will drop to 1 naturally. */
-    .shopcategory-products > div {
-        flex: 1 1 140px; 
-        padding: 10px;
-    }
+  .shopcategory-products > div {
+    flex: 1 1 140px;
+    padding: 10px;
+  }
 }

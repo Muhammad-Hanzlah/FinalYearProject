@@ -1,141 +1,103 @@
-/* .offers{
-    width: 65%;
-    height: 60vh;
-    display: flex;
-    margin: auto;
-    padding: 0px 140px;
-    margin-bottom: 150px;
-    background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
-
-}
-.offers-left{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.offers-left h1{
-    font-size: 80px;
-    font-weight: 600;
-    color: #171717;
-}   
-.offers-left p{
-    color: #171717;
-    font-size: 22px;
-    font-weight: 600;
-}
-.offers-left button{
-    width: 282px;
-    height: 70px;
-    border-radius: 35px;
-    background: #ff4141;
-    border: none;
-    color: white;
-    font-size: 22px;
-    font-weight: 500;
-    margin-top: 30px;
-    cursor: pointer;  
-}
-.offers-right{
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-top: 50px;
-} */
-
-
-
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 .offers {
-    width: 85%;
-    max-width: 1280px; /* Prevents it from getting too wide */
-    height: 60vh;
-    display: flex;
-    /* FIX: Center Everything */
-    justify-content: center; 
-    align-items: center;
-    gap: 100px; /* Space between text and image */
-    margin: 0 auto; /* Centers the whole box */
-    margin-bottom: 100px;
-    background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
-    border-radius: 10px;
-    padding: 0 40px;
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+  width: 85%;
+  max-width: 1280px; /* Prevents it from getting too wide */
+  height: 60vh;
+  display: flex;
+  /* FIX: Center Everything */
+  justify-content: center;
+  align-items: center;
+  gap: 100px; /* Space between text and image */
+  margin: 0 auto; /* Centers the whole box */
+  margin-bottom: 100px;
+  background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
+  border-radius: 10px;
+  padding: 0 40px;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
 }
 
 .offers-left {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 500px; /* Keeps text neat */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px; /* Keeps text neat */
 }
 
 .offers-left h1 {
-    color: #171717;
-    font-size: 60px;
-    font-weight: 600;
-    line-height: 1.1;
+  color: #171717;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 1.1;
 }
 
 .offers-left p {
-    color: #171717;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 20px 0px;
+  color: #171717;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 20px 0px;
 }
 
 .offers-left button {
-    width: 200px;
-    height: 55px;
-    border-radius: 35px;
-    background: #ff4141;
-    border: none;
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(255, 65, 65, 0.3);
-    transition: 0.3s;
+  width: 200px;
+  height: 55px;
+  border-radius: 35px;
+  background: #ff4141;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(255, 65, 65, 0.3);
+  transition: 0.3s;
 }
 
 .offers-left button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
 }
 
 .offers-right {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centers image in its half */
-    padding-top: 50px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers image in its half */
+  padding-top: 50px;
 }
 
 .offers-right img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 /* RESPONSIVE */
-@media(max-width: 1280px) {
-    .offers { height: 50vh; gap: 40px; }
-    .offers-left h1 { font-size: 40px; }
+@media (max-width: 1280px) {
+  .offers {
+    height: 50vh;
+    gap: 40px;
+  }
+  .offers-left h1 {
+    font-size: 40px;
+  }
 }
 
-@media(max-width: 900px) {
-    .offers {
-        flex-direction: column;
-        height: auto;
-        padding: 40px;
-        gap: 20px;
-        text-align: center;
-    }
-    .offers-left { align-items: center; }
-    .offers-right { padding-top: 0; }
-    .offers-right img { width: 250px; }
+@media (max-width: 900px) {
+  .offers {
+    flex-direction: column;
+    height: auto;
+    padding: 40px;
+    gap: 20px;
+    text-align: center;
+  }
+  .offers-left {
+    align-items: center;
+  }
+  .offers-right {
+    padding-top: 0;
+  }
+  .offers-right img {
+    width: 250px;
+  }
 }
