@@ -1,285 +1,172 @@
-/* .cartitems{
-    margin: 100px 170px;
-}
-.cartitems hr{
-    height: 3px;
-    background: #e2e2e2;
-    border: 0;
-}
-.cartitems-format-main{
-    display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr;
-    align-items: center;
-    gap: 75px;
-    padding: 20px 0px;
-    color: #454545;
-    font-size: 18px;
-    font-weight: 600;
-}
-.cartitems-format{
-    font-size: 17px;
-    font-weight: 500px;
-}
-.carticon-product-icon{
-    height: 62px;
-}
-.cartitems-remove-icon{
-    width: 15px;
-    margin: 0px 40px;
-    cursor: pointer;
-}
-.cartitems-quantity{
-    width: 64px;
-    height: 50px;
-    border: 2px solid #ebebeb;
-    background: #fff;
-}
-.cartitems-down{
-    display: flex;
-    margin: 100px 0px;
-}
-.cartitems-total{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-right: 200px;
-    gap: 40px;
-}
-.cartitems-total-item{
-    display: flex ;
-    justify-content: space-between;
-    padding: 15px 0px;
-}
-.cartitems-total button{
-    width: 262px;
-    height: 58px;
-    outline: none;
-    border: none;
-    background: #ff5a5a;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.cartitems-promocode{
-    flex: 1;
-    font-size: 16px;
-    font-weight: 500;
-}
-.cartitems-promocode p{
-    color: #555;
-}
-.cartitems-promobox{
-    width: 504px;
-    margin-top: 15px;
-    padding-left: 20px;
-    height: 58px;
-    background: #eaeaea;
-}
-.cartitems-promobox input{
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 16px;
-    width: 330px;
-    height: 50px;
-}
-.cartitems-promobox button{
-    width: 170px;
-    height: 58px;
-    font-size: 16px;
-    background: black;
-    color: white;
-    cursor: pointer;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* --- 1. Global Setup --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 .cartitems {
-    margin: 100px auto;
-    width: 90%;
-    max-width: 1200px;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    flex-direction: column;
+  margin: 100px auto;
+  width: 90%;
+  max-width: 1200px;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 /* --- 2. Desktop Table Header --- */
 .cartitems-format-main {
-    display: grid;
-    /* 6 columns to match your 6 <p> tags */
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
-    align-items: center;
-    gap: 40px; 
-    padding: 20px 0;
-    color: #454545;
-    font-size: 18px;
-    font-weight: 600;
+  display: grid;
+  /* 6 columns to match your 6 <p> tags */
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 0;
+  color: #454545;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .cartitems hr {
-    height: 2px;
-    background: #eeeeee;
-    border: 0;
-    margin: 0;
+  height: 2px;
+  background: #eeeeee;
+  border: 0;
+  margin: 0;
 }
 
 /* --- 3. Product Row Layout --- */
 .cartitems-format {
-    display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
-    align-items: center;
-    gap: 40px;
-    padding: 20px 0;
-    font-size: 17px;
-    font-weight: 500;
-    color: #333;
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 0;
+  font-size: 17px;
+  font-weight: 500;
+  color: #333;
 }
 
 .carticon-product-icon {
-    height: 70px;
-    width: auto;
-    object-fit: cover;
-    border-radius: 6px;
+  height: 70px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .cartitems-remove-icon {
-    width: 15px;
-    cursor: pointer;
-    margin: 0 auto;
-    transition: transform 0.2s;
+  width: 15px;
+  cursor: pointer;
+  margin: 0 auto;
+  transition: transform 0.2s;
 }
 
 .cartitems-remove-icon:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .cartitems-quantity {
-    width: 50px;
-    height: 40px;
-    border: 1.5px solid #ebebeb;
-    background: #fff;
-    margin: 0 auto;
-    font-weight: 600;
+  width: 50px;
+  height: 40px;
+  border: 1.5px solid #ebebeb;
+  background: #fff;
+  margin: 0 auto;
+  font-weight: 600;
 }
 
 /* --- 4. Bottom Section (Totals & Promo) --- */
 .cartitems-down {
-    display: flex;
-    margin: 80px 0;
-    gap: 60px;
-    flex-wrap: wrap; /* Prevents overlapping by allowing wrap */
-    justify-content: space-between;
+  display: flex;
+  margin: 80px 0;
+  gap: 60px;
+  flex-wrap: wrap; /* Prevents overlapping by allowing wrap */
+  justify-content: space-between;
 }
 
 /* Cart Totals Box */
 .cartitems-total {
-    flex: 1;
-    min-width: 320px; /* Ensures box doesn't get crushed */
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  flex: 1;
+  min-width: 320px; /* Ensures box doesn't get crushed */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .cartitems-total h1 {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 10px;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .cartitems-total-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    color: #555;
-    border-bottom: 1px solid #f3f3f3; /* Prevents "vibration" vs <hr> */
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  color: #555;
+  border-bottom: 1px solid #f3f3f3; /* Prevents "vibration" vs <hr> */
 }
 
 .cartitems-total-items {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    font-weight: 700;
-    font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .cartitems-total button {
-    width: 100%;
-    max-width: 262px;
-    height: 58px;
-    border: none;
-    background: #ff5a5a;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s ease;
+  width: 100%;
+  max-width: 262px;
+  height: 58px;
+  border: none;
+  background: #ff5a5a;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 .cartitems-total button:hover {
-    background: #e04f4f;
+  background: #e04f4f;
 }
 
 /* Promo Code Box */
 .cartitems-promocode {
-    flex: 1;
-    min-width: 320px; /* Ensures box doesn't cut off */
+  flex: 1;
+  min-width: 320px; /* Ensures box doesn't cut off */
 }
 
 .cartitems-promocode p {
-    color: #555;
-    margin-bottom: 15px;
-    font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+  font-size: 16px;
 }
 
 .cartitems-promobox {
-    width: 100%;
-    max-width: 500px; /* Fluid width instead of fixed 504px */
-    height: 58px;
-    background: #f3f3f3;
-    display: flex;
-    align-items: center;
-    border-radius: 4px;
-    overflow: hidden;
+  width: 100%;
+  max-width: 500px; /* Fluid width instead of fixed 504px */
+  height: 58px;
+  background: #f3f3f3;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .cartitems-promobox input {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 16px;
-    flex: 1;
-    padding-left: 20px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  flex: 1;
+  padding-left: 20px;
 }
 
 .cartitems-promobox button {
-    width: 130px;
-    height: 100%;
-    background: black;
-    color: white;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
+  width: 130px;
+  height: 100%;
+  background: black;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* =========================================================
@@ -287,100 +174,101 @@
    ========================================================= */
 
 @media (max-width: 1024px) {
-    .cartitems-down {
-        flex-direction: column-reverse; /* Promo below Totals for better flow */
-        align-items: center;
-    }
+  .cartitems-down {
+    flex-direction: column-reverse; /* Promo below Totals for better flow */
+    align-items: center;
+  }
 
-    .cartitems-total, .cartitems-promocode {
-        width: 100%;
-        max-width: 500px;
-    }
+  .cartitems-total,
+  .cartitems-promocode {
+    width: 100%;
+    max-width: 500px;
+  }
 
-    .cartitems-total button {
-        max-width: 100%; /* Button fills container on mobile */
-    }
+  .cartitems-total button {
+    max-width: 100%; /* Button fills container on mobile */
+  }
 }
 
 @media (max-width: 850px) {
-    /* Transition from Table List to 4-3-2-1 Atoms */
-    .cartitems-format-main {
-        display: none; /* Hide horizontal headers */
-    }
+  /* Transition from Table List to 4-3-2-1 Atoms */
+  .cartitems-format-main {
+    display: none; /* Hide horizontal headers */
+  }
 
-    .cartitems {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
+  .cartitems {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
 
-    /* Target the product wrapper div from the map */
-    .cartitems > div:not(.cartitems-down):not(.cartitems-format-main) {
-        flex: 1 1 240px; /* Atom Shifting Logic */
-        max-width: 300px;
-        background: #fff;
-        border: 1px solid #f0f0f0;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
+  /* Target the product wrapper div from the map */
+  .cartitems > div:not(.cartitems-down):not(.cartitems-format-main) {
+    flex: 1 1 240px; /* Atom Shifting Logic */
+    max-width: 300px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
 
-    .cartitems-format {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
+  .cartitems-format {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
 
-    .carticon-product-icon {
-        height: 120px;
-    }
+  .carticon-product-icon {
+    height: 120px;
+  }
 
-    .cartitems hr {
-        display: none; /* Hide HRs in atom view */
-    }
+  .cartitems hr {
+    display: none; /* Hide HRs in atom view */
+  }
 }
 
 @media (max-width: 500px) {
-    .cartitems {
-        margin: 40px auto; /* Reduce top margin for mobile */
-    }
+  .cartitems {
+    margin: 40px auto; /* Reduce top margin for mobile */
+  }
 
-    /* Fix the Promo Box and Button */
-    .cartitems-promobox {
-        height: auto; /* Allow height to expand for stacked button */
-        flex-direction: column; /* Stacks input and button vertically */
-        background: transparent;
-    }
+  /* Fix the Promo Box and Button */
+  .cartitems-promobox {
+    height: auto; /* Allow height to expand for stacked button */
+    flex-direction: column; /* Stacks input and button vertically */
+    background: transparent;
+  }
 
-    .cartitems-promobox input {
-        width: 100%;
-        height: 50px;
-        background: #f3f3f3;
-        margin-bottom: 10px;
-        border-radius: 4px;
-    }
+  .cartitems-promobox input {
+    width: 100%;
+    height: 50px;
+    background: #f3f3f3;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
 
-    .cartitems-promobox button {
-        width: 100%; /* Makes button solid and full-width */
-        height: 50px;
-        border-radius: 4px;
-    }
+  .cartitems-promobox button {
+    width: 100%; /* Makes button solid and full-width */
+    height: 50px;
+    border-radius: 4px;
+  }
 
-    /* Fix the Totals Section */
-    .cartitems-total h1 {
-        font-size: 22px;
-        text-align: center;
-    }
+  /* Fix the Totals Section */
+  .cartitems-total h1 {
+    font-size: 22px;
+    text-align: center;
+  }
 
-    .cartitems-total button {
-        max-width: 100%;
-        height: 50px;
-    }
+  .cartitems-total button {
+    max-width: 100%;
+    height: 50px;
+  }
 
-    /* Ensure Atom view works on 300px */
-    .cartitems > div:not(.cartitems-down) {
-        flex: 1 1 100%; /* Single item per row to fit 300px */
-    }
+  /* Ensure Atom view works on 300px */
+  .cartitems > div:not(.cartitems-down) {
+    flex: 1 1 100%; /* Single item per row to fit 300px */
+  }
 }

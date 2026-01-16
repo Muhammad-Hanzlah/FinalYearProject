@@ -1,93 +1,65 @@
-/* .breadcrum{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #5e5e5e;
-    font-size: 16px;
-    font-weight: 600px;
-    margin: 60px 170px;
-    text-transform: capitalize;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* --- 1. Fonts & Global Layout (Desktop > 481px) --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 .breadcrum {
-    display: flex;
-    align-items: center; /* Vertically centers text */
-    gap: 8px;
-    color: #5e5e5e;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    text-transform: capitalize;
-    
-    /* Desktop Layout */
-    width: 90%; 
-    max-width: 1200px;
-    margin: 0 auto;
-    
-    /* Desktop Padding (You liked this) */
-    padding-top: 100px; 
-    padding-bottom: 20px;
+  display: flex;
+  align-items: center; /* Vertically centers text */
+  gap: 8px;
+  color: #5e5e5e;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  text-transform: capitalize;
+
+  /* Desktop Layout */
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  /* Desktop Padding (You liked this) */
+  padding-top: 100px;
+  padding-bottom: 20px;
 }
 
 .breadcrum img {
-    height: 12px; 
-    width: auto;
-    opacity: 0.7; 
+  height: 12px;
+  width: auto;
+  opacity: 0.7;
 }
 
 /* =========================================
    [THE FIX] Screens < 481px (Mobile)
    ========================================= */
 @media (max-width: 480px) {
-    .breadcrum {
-        /* 1. Use a safe padding that doesn't push it too far down or up */
-        padding-top: 80px; 
-        
-        /* 2. CRITICAL FIX: Allow text to wrap to the next line */
-        flex-wrap: wrap; 
-        
-        /* 3. CRITICAL FIX: Allow the box to grow vertically so text isn't cut */
-        height: auto; 
-        min-height: 40px;
-        
-        /* 4. Increase line-height so letters don't get sliced */
-        line-height: 1.5; 
-        
-        /* Mobile styling */
-        font-size: 12px;
-        gap: 6px;
-        margin-bottom: 10px;
-    }
-    
-    .breadcrum img {
-        height: 10px;
-        /* Ensure arrow is centered vertically with text */
-        margin-top: 1px; 
-    }
-   
+  .breadcrum {
+    /* 1. Use a safe padding that doesn't push it too far down or up */
+    padding-top: 80px;
+
+    /* 2. CRITICAL FIX: Allow text to wrap to the next line */
+    flex-wrap: wrap;
+
+    /* 3. CRITICAL FIX: Allow the box to grow vertically so text isn't cut */
+    height: auto;
+    min-height: 40px;
+
+    /* 4. Increase line-height so letters don't get sliced */
+    line-height: 1.5;
+
+    /* Mobile styling */
+    font-size: 12px;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .breadcrum img {
+    height: 10px;
+    /* Ensure arrow is centered vertically with text */
+    margin-top: 1px;
+  }
 }
- @media (max-width: 400px) {
-    .breadcrum {
-        /* 1. Use a safe padding that doesn't push it too far down or up */
-        padding-top: 40px; 
-    }
+@media (max-width: 400px) {
+  .breadcrum {
+    /* 1. Use a safe padding that doesn't push it too far down or up */
+    padding-top: 40px;
+  }
 }

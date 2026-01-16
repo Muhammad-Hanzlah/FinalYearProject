@@ -1,116 +1,72 @@
-/* .descriptionbox{
-    margin: 120px 170px;
-}
-.descriptionbox-navigator{
-    display: flex;
-}
-.descriptionbox-nav-box{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
-    width: 171px;
-    height: 70px;
-    border: 1px solid #d0d0d0;
-}
-.descriptionbox-nav-box.fade{
-    background: #FBFBFB;
-    color: #555;
-}
-.descriptionbox-description{
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    border: 1px solid #D0D0D0;
-    padding: 48PX;
-    padding-bottom: 70px;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* --- 1. Fonts & Layout --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 .descriptionbox {
-    /* Center it and match width of ProductDisplay */
-    width: 90%; 
-    max-width: 1200px;
-    margin: 60px auto 100px; /* 60px top margin, 100px bottom margin */
-    
-    font-family: 'Poppins', sans-serif;
+  /* Center it and match width of ProductDisplay */
+  width: 90%;
+  max-width: 1200px;
+  margin: 60px auto 100px; /* 60px top margin, 100px bottom margin */
+
+  font-family: "Poppins", sans-serif;
 }
 
 /* --- 2. The Tab Navigator --- */
 .descriptionbox-navigator {
-    display: flex;
-    /* This connects the tabs cleanly */
+  display: flex;
+  /* This connects the tabs cleanly */
 }
 
 .descriptionbox-nav-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
-    width: 170px; /* Fixed width for standard tab look */
-    height: 70px;
-    border: 1px solid #e0e0e0;
-    cursor: pointer;
-    background: white; /* Active tab is white */
-    color: #171717;
-    transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  width: 170px; /* Fixed width for standard tab look */
+  height: 70px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  background: white; /* Active tab is white */
+  color: #171717;
+  transition: all 0.2s ease;
 }
 
 /* --- 3. The "Fade" (Inactive) Tab --- */
 .descriptionbox-nav-box.fade {
-    background: #fbfbfb; /* Slightly greyed out */
-    color: #555;
-    font-weight: 500;
-    border-left: none; /* Prevents double border line */
+  background: #fbfbfb; /* Slightly greyed out */
+  color: #555;
+  font-weight: 500;
+  border-left: none; /* Prevents double border line */
 }
 
 /* Hover effect for inactive tab */
 .descriptionbox-nav-box.fade:hover {
-    background: #f0f0f0;
-    color: #333;
+  background: #f0f0f0;
+  color: #333;
 }
 
 /* --- 4. The Content Box --- */
 .descriptionbox-description {
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* Spacing between paragraphs */
-    border: 1px solid #e0e0e0;
-    
-    /* Remove top border so it merges with the Active Tab */
-    border-top: none; 
-    
-    padding: 40px; /* Spacious internal padding */
-    padding-top: 30px;
-    background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Spacing between paragraphs */
+  border: 1px solid #e0e0e0;
+
+  /* Remove top border so it merges with the Active Tab */
+  border-top: none;
+
+  padding: 40px; /* Spacious internal padding */
+  padding-top: 30px;
+  background: white;
 }
 
 /* Paragraph styling */
 .descriptionbox-description p {
-    font-size: 15px;
-    color: #555;
-    line-height: 1.8; /* Makes text very easy to read */
-    font-weight: 400;
-    margin: 0;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.8; /* Makes text very easy to read */
+  font-weight: 400;
+  margin: 0;
 }
 
 /* =========================================
@@ -118,35 +74,35 @@
    ========================================= */
 
 @media (max-width: 1024px) {
-    .descriptionbox {
-        width: 95%; /* Use more width on tablet/mobile */
-        margin: 40px auto 60px;
-    }
+  .descriptionbox {
+    width: 95%; /* Use more width on tablet/mobile */
+    margin: 40px auto 60px;
+  }
 }
 
 @media (max-width: 585px) {
-    /* --- Tabs on Mobile --- */
-    .descriptionbox-nav-box {
-        width: 50%; /* Make tabs fill the width (50% each) */
-        font-size: 14px;
-        height: 60px;
-    }
-    
-    /* --- Content on Mobile --- */
-    .descriptionbox-description {
-        padding: 20px; /* Less padding on phone */
-        gap: 15px;
-    }
-    
-    .descriptionbox-description p {
-        font-size: 13px; /* Slightly smaller text */
-        line-height: 1.6;
-    }
+  /* --- Tabs on Mobile --- */
+  .descriptionbox-nav-box {
+    width: 50%; /* Make tabs fill the width (50% each) */
+    font-size: 14px;
+    height: 60px;
+  }
+
+  /* --- Content on Mobile --- */
+  .descriptionbox-description {
+    padding: 20px; /* Less padding on phone */
+    gap: 15px;
+  }
+
+  .descriptionbox-description p {
+    font-size: 13px; /* Slightly smaller text */
+    line-height: 1.6;
+  }
 }
 
 /* Tiny Screen Adjustment */
 @media (max-width: 350px) {
-    .descriptionbox-nav-box {
-        font-size: 12px;
-    }
+  .descriptionbox-nav-box {
+    font-size: 12px;
+  }
 }

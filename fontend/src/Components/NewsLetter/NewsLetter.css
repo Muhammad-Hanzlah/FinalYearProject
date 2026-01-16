@@ -1,145 +1,89 @@
-/* .newsletter{
-    width: 65%;
-    height: 40vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    padding: 0px 140px;
-    margin-bottom: 150px;
-    background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
-    gap:30px;
-}
-.newsletter h1{
-    font-size: 55px;
-    font-weight: 600;
-    color: #454545;
-}
-.newsletter p{
-    font-size: 20px;
-    color: #454545;
-}
-.newsletter div{
-    width: 730px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: white;
-    height: 70px;
-    border-radius: 8px;
-    border: 1px solid #e3e3e3;
-}
-.newsletter input{
-    width: 500px;
-    margin-left: 30px;
-    border: none;
-    outline: none;
-    color: #616161;
-    font-family: poppins;
-    font-size: 16px;
-}
-.newsletter div button{
-    width: 210px;
-    height: 70px;
-    background: black;
-    border-radius: 80px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-} */
-
-
-
-
-
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 .newsletter {
-    width: 90%; /* Safety margin */
-    max-width: 1400px; /* Limits max size */
-    height: 40vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    margin-bottom: 100px;
-    background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
-    gap: 30px;
-    border-radius: 10px;
-    font-family: 'Poppins', sans-serif;
-    padding: 0 20px; 
-    box-sizing: border-box; /* Crucial: padding doesn't add to width */
+  width: 90%; /* Safety margin */
+  max-width: 1400px; /* Limits max size */
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
+  gap: 30px;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  padding: 0 20px;
+  box-sizing: border-box; /* Crucial: padding doesn't add to width */
 }
 
 /* --- TEXT --- */
 .newsletter h1 {
-    color: #454545;
-    font-size: 55px;
-    font-weight: 600;
-    text-align: center;
-    line-height: 1.1;
-    margin: 0; /* Remove default margins */
+  color: #454545;
+  font-size: 55px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.1;
+  margin: 0; /* Remove default margins */
 }
 
 .newsletter p {
-    color: #454545;
-    font-size: 20px;
-    text-align: center;
-    margin: 0;
+  color: #454545;
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
 }
 
 /* --- THE "LOCK FIT" CONTAINER --- */
 .newsletter div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Pushes button to far right */
-    background: white;
-    
-    /* WIDTH LOGIC: Max width is 730px, but it can shrink to 0 */
-    width: 100%; 
-    max-width: 730px; 
-    
-    height: 70px;
-    border-radius: 80px;
-    border: 1px solid #e3e3e3;
-    overflow: hidden; /* Clips the button so corners match perfectly */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Pushes button to far right */
+  background: white;
+
+  /* WIDTH LOGIC: Max width is 730px, but it can shrink to 0 */
+  width: 100%;
+  max-width: 730px;
+
+  height: 70px;
+  border-radius: 80px;
+  border: 1px solid #e3e3e3;
+  overflow: hidden; /* Clips the button so corners match perfectly */
 }
 
 /* --- INPUT --- */
 .newsletter input {
-    flex: 1; /* Takes all available space left by button */
-    height: 100%; /* Full height of container */
-    border: none;
-    outline: none;
-    color: #616161;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    padding-left: 30px; /* Text padding */
+  flex: 1; /* Takes all available space left by button */
+  height: 100%; /* Full height of container */
+  border: none;
+  outline: none;
+  color: #616161;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  padding-left: 30px; /* Text padding */
 }
 
 .newsletter input::placeholder {
-    color: #c4c4c4;
+  color: #c4c4c4;
 }
 
 /* --- BUTTON (LOCKED) --- */
 .newsletter button {
-    width: 210px;
-    height: 100%; /* Matches container height exactly */
-    background: black;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    border: none; 
-    outline: none;
-    /* No border radius needed here because the PARENT (div) clips it */
-    transition: 0.3s;
+  width: 210px;
+  height: 100%; /* Matches container height exactly */
+  background: black;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  /* No border radius needed here because the PARENT (div) clips it */
+  transition: 0.3s;
 }
 
 .newsletter button:hover {
-    background: #252525; /* Dark Grey hover */
+  background: #252525; /* Dark Grey hover */
 }
 
 /* =========================================
@@ -147,58 +91,82 @@
    ========================================= */
 
 /* 1. TABLET (1280px) */
-@media(max-width: 1280px) {
-    .newsletter { height: 35vh; }
-    .newsletter h1 { font-size: 36px; }
-    .newsletter p { font-size: 16px; }
-    
-    .newsletter div { height: 60px; max-width: 600px; }
-    .newsletter button { width: 150px; font-size: 14px; }
+@media (max-width: 1280px) {
+  .newsletter {
+    height: 35vh;
+  }
+  .newsletter h1 {
+    font-size: 36px;
+  }
+  .newsletter p {
+    font-size: 16px;
+  }
+
+  .newsletter div {
+    height: 60px;
+    max-width: 600px;
+  }
+  .newsletter button {
+    width: 150px;
+    font-size: 14px;
+  }
 }
 
 /* 2. MOBILE (800px) */
-@media(max-width: 800px) {
-    .newsletter {
-        padding: 40px 20px;
-        height: auto;
-        gap: 20px;
-    }
-    .newsletter h1 { font-size: 24px; }
-    .newsletter div { height: 50px; }
-    .newsletter input { font-size: 13px; padding-left: 20px; }
-    .newsletter button { width: 120px; font-size: 13px; }
+@media (max-width: 800px) {
+  .newsletter {
+    padding: 40px 20px;
+    height: auto;
+    gap: 20px;
+  }
+  .newsletter h1 {
+    font-size: 24px;
+  }
+  .newsletter div {
+    height: 50px;
+  }
+  .newsletter input {
+    font-size: 13px;
+    padding-left: 20px;
+  }
+  .newsletter button {
+    width: 120px;
+    font-size: 13px;
+  }
 }
 
 /* 3. TINY SCREEN (Under 480px) */
 /* Here we break the lock to prevent squashing */
-@media(max-width: 480px) {
-    .newsletter h1 { font-size: 20px; }
-    
-    .newsletter div {
-        /* Remove the "pill" container look */
-        background: transparent;
-        border: none;
-        flex-direction: column; /* Stack vertically */
-        height: auto; /* Let it grow */
-        gap: 15px;
-    }
+@media (max-width: 480px) {
+  .newsletter h1 {
+    font-size: 20px;
+  }
 
-    /* Make Input look like its own box */
-    .newsletter input {
-        width: 100%;
-        height: 50px;
-        background: white;
-        border-radius: 50px;
-        border: 1px solid #e3e3e3;
-        padding-left: 20px;
-        box-sizing: border-box; /* Prevents width > 100% */
-    }
+  .newsletter div {
+    /* Remove the "pill" container look */
+    background: transparent;
+    border: none;
+    flex-direction: column; /* Stack vertically */
+    height: auto; /* Let it grow */
+    gap: 15px;
+  }
 
-    /* Make Button look like its own box */
-    .newsletter button {
-        width: 100%;
-        height: 50px;
-        border-radius: 50px; /* Add radius back since it's standalone now */
-        background: #ff4141; /* Switch to brand color for visibility */
-    }
+  /* Make Input look like its own box */
+  .newsletter input {
+    width: 100%;
+    height: 50px;
+    background: white;
+    border-radius: 50px;
+    border: 1px solid #e3e3e3;
+    padding-left: 20px;
+    box-sizing: border-box; /* Prevents width > 100% */
+  }
+
+  /* Make Button look like its own box */
+  .newsletter button {
+    width: 100%;
+    height: 50px;
+    border-radius: 50px; /* Add radius back since it's standalone now */
+    background: #ff4141; /* Switch to brand color for visibility */
+  }
 }

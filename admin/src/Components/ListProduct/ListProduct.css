@@ -4,7 +4,7 @@
   max-width: 900px;
   background-color: #ffffff;
   padding: 30px;
-  margin: 40px auto; 
+  margin: 40px auto;
   border-radius: 12px;
   box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
   /* Added display flex to allow the internal list to grow/shrink properly */
@@ -33,7 +33,7 @@
 /* THE SCROLLER SECTION */
 .listproduct-allproducts {
   /* This enables the scroll only for the product items */
-  overflow-y: auto; 
+  overflow-y: auto;
   max-height: 550px; /* Limits the height so the scroller appears */
   padding-right: 10px;
 }
@@ -89,7 +89,7 @@
     padding: 15px;
     margin: 20px auto;
   }
-  
+
   .listproduct-format-main {
     font-size: 12px;
     grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;

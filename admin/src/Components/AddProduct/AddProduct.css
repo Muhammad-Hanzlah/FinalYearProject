@@ -3,17 +3,17 @@
   box-sizing: border-box;
   width: 95%;
   max-width: 800px;
-  
+
   /* THIS CENTERS THE ELEMENT: auto margins calculate the 
      remaining space and split it equally on both sides */
-  margin: 40px auto; 
-  
+  margin: 40px auto;
+
   padding: 40px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 25px;
-  
+
   /* Modern soft shadow */
   box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.05);
 }
@@ -137,7 +137,7 @@
 @media (max-width: 800px) {
   .add-product {
     padding: 30px 20px;
-    margin: 0 auto; 
+    margin: 0 auto;
     width: 90%;
   }
 
@@ -147,7 +147,7 @@
   }
 
   .addproduct-price .addproduct-itemfield {
-    flex: none;      
+    flex: none;
     width: 130px; /* Fixed width for numbers */
   }
 
@@ -166,7 +166,7 @@
     padding: 20px 15px;
     gap: 20px;
   }
-  
+
   .addproduct-price .addproduct-itemfield {
     width: 46%; /* Maintain side-by-side on tiny screens */
   }
