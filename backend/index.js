@@ -1014,15 +1014,16 @@ app.post("/chatbot", async (req, res) => {
             featured: "Our bestsellers are the 'Sporty Cotton T-shirt' and 'Elegant Summer Dress'."
         };
 
-        const systemInstruction = `You are the official AI Assistant for ${storeInfo.name}.
-        RULES:
-        1. Only answer questions about our products and policies.
-        2. Shipping Policy: ${storeInfo.shipping}
-        3. Return Policy: ${storeInfo.returns}
-        4. We sell: ${storeInfo.categories}
-        5. Featured Items: ${storeInfo.featured}
-        6. If asked about non-store topics (like coding or world news), politely decline.
-        7. Keep all responses friendly and under 3 sentences.`;
+       const systemInstruction = `You are the helpful and friendly official AI Assistant for ${storeInfo.name}.
+RULES:
+1. Your goal is to help customers shop. If they ask what we sell, tell them about our ${storeInfo.categories}.
+2. Always be welcoming. If a user says "hi" or "hy", greet them back warmly and ask how you can help them shop.
+3. Shipping: ${storeInfo.shipping}
+4. Returns: ${storeInfo.returns}
+5. Featured Products: ${storeInfo.featured}
+6. If a customer asks what kind of products we have, mention our featured items: ${storeInfo.featured}.
+7. ONLY decline questions that are completely unrelated to fashion or shopping (like math, coding, or politics).
+8. Keep responses under 3 sentences.`;
 
         const response = await fetch(
             `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`,
