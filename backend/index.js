@@ -471,20 +471,24 @@ app.post('/google-login', async (req, res) => {
         // 2. Check if user already exists in MongoDB
         let user = await Users.findOne({ email: email });
 
-        if (!user) {
-            // 3. Create new user if they don't exist
-            user = new Users({
-                name: name,
+        // Inside /google-login
+if (!user) {
+    let cart = {};
+    for (let i = 0; i < 301; i++) {
+        cart[i] = 0; // This creates the same structure as your manual signup
+    }
+
+    user = new Users({
+        name: name,
         email: email,
-        // Match the OTP user format exactly
         password: Math.random().toString(36).slice(-8), 
-        cartData: {}, // Change Array(301) to Object {} to match OTP user
-        isVerified: true, // Set this to true so they don't get stuck
-        otp: "", // Give them an empty OTP string like the OTP user
-        interests: {},
-            });
-            await user.save();
-        }
+        cartData: cart, // Now it has content, so MongoDB WILL show it
+        isVerified: true, 
+        otp: "", 
+        interests: {}, 
+    });
+    await user.save();
+}
 
         // 4. Generate your App's JWT Token for the session
         const data = { user: { id: user.id } };
