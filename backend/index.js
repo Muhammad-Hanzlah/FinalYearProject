@@ -1008,31 +1008,26 @@ app.post("/chatbot", async (req, res) => {
 
         const storeInfo = {
             name: "Hanzala's Fashion Store",
-            shipping: "Free shipping on orders over $50. Otherwise, it's $5 flat rate.",
-            returns: "15-day easy returns if tags are attached. No returns on 'Final Sale' items.",
+            shipping: "Free shipping on orders over $50.",
+            returns: "15-day easy returns.",
             categories: "Mens, Womens, and Kids clothing.",
-            featured: "Our bestsellers are the 'Sporty Cotton T-shirt' and 'Elegant Summer Dress'."
+            featured: "Sporty Cotton T-shirts and Elegant Summer Dresses."
         };
 
-       const systemInstruction = `You are the helpful and friendly official AI Assistant for ${storeInfo.name}.
-RULES:
-1. Your goal is to help customers shop. If they ask what we sell, tell them about our ${storeInfo.categories}.
-2. Always be welcoming. If a user says "hi" or "hy", greet them back warmly and ask how you can help them shop.
-3. Shipping: ${storeInfo.shipping}
-4. Returns: ${storeInfo.returns}
-5. Featured Products: ${storeInfo.featured}
-6. If a customer asks what kind of products we have, mention our featured items: ${storeInfo.featured}.
-7. ONLY decline questions that are completely unrelated to fashion or shopping (like math, coding, or politics).
-8. Keep responses under 3 sentences.`;
+        const systemInstruction = `You are a helpful shopping assistant for ${storeInfo.name}. 
+        Greet users warmly. If they ask "hy" or "hi", say hello! 
+        You MUST answer questions about our products (${storeInfo.categories}) and our featured items like ${storeInfo.featured}. 
+        If someone asks for a "red dress" or "trending" items, suggest our Elegant Summer Dress or search our categories. 
+        Only decline non-shopping topics like politics or math. Keep it under 3 sentences.`;
 
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: `${systemInstruction}\n\nCustomer Message: ${message}` }]
+                        parts: [{ text: `${systemInstruction}\n\nCustomer: ${message}` }]
                     }]
                 }),
             }
@@ -1040,19 +1035,19 @@ RULES:
 
         const data = await response.json();
 
-        // --- THE FIX: Safety Guards ---
-        if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
+        // Improved extraction logic to prevent the "500" error
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
             const replyText = data.candidates[0].content.parts[0].text;
             res.json({ success: true, reply: replyText });
         } else {
-            // Handle cases where AI is blocked or empty
-            console.error("AI blocked response or returned empty:", data);
-            res.json({ success: true, reply: "I'm sorry, I can only assist with store-related questions. How can I help with your shopping today?" });
+            // Log exactly what went wrong for debugging
+            console.log("AI Response Issue:", JSON.stringify(data));
+            res.json({ success: true, reply: "I'm here! I can help you find dresses, shirts, or explain our shipping. What are you looking for?" });
         }
 
     } catch (error) {
         console.error("Chatbot Error:", error.message);
-        res.status(500).json({ success: false, reply: "I'm having a small technical glitch. Try again!" });
+        res.status(500).json({ success: false, reply: "Technical glitch. Please try again!" });
     }
 });
 // --- END OF CHATBOT CODE ---
